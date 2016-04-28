@@ -1,4 +1,4 @@
-build/Debug/GNU-MacOSX/main.o: main.cpp Information.hpp \
+build/Debug/GNU-MacOSX/main.o: main.cpp Information.hpp Common.hpp \
   third_party/rapidjson/document.h third_party/rapidjson/reader.h \
   third_party/rapidjson/rapidjson.h third_party/rapidjson/allocators.h \
   third_party/rapidjson/encodings.h \
@@ -10,11 +10,11 @@ build/Debug/GNU-MacOSX/main.o: main.cpp Information.hpp \
   third_party/rapidjson/internal/diyfp.h \
   third_party/rapidjson/internal/pow10.h \
   third_party/rapidjson/error/error.h \
-  third_party/rapidjson/internal/strfunc.h Area.hpp Population.hpp \
-  ../ATL/ATL.hpp ../ATL/AutoDiff/AutoDiff.hpp \
-  ../ATL/AutoDiff/Variable.hpp ../ATL/AutoDiff/AlignedAllocator.hpp \
-  ../ATL/AutoDiff/Expression.hpp ../ATL/AutoDiff/GradientStructure.hpp \
-  ../ATL/AutoDiff/Config.hpp ../ATL/AutoDiff/../Utilities/flat_map.hpp \
+  third_party/rapidjson/internal/strfunc.h ../ATL/ATL.hpp \
+  ../ATL/AutoDiff/AutoDiff.hpp ../ATL/AutoDiff/Variable.hpp \
+  ../ATL/AutoDiff/AlignedAllocator.hpp ../ATL/AutoDiff/Expression.hpp \
+  ../ATL/AutoDiff/GradientStructure.hpp ../ATL/AutoDiff/Config.hpp \
+  ../ATL/AutoDiff/../Utilities/flat_map.hpp \
   ../ATL/AutoDiff/../Utilities/flat_set.hpp \
   ../ATL/AutoDiff/VariableInfo.hpp ../ATL/AutoDiff/PoolAllocator.hpp \
   ../ATL/AutoDiff/../Utilities/MemoryPool.hpp \
@@ -67,10 +67,12 @@ build/Debug/GNU-MacOSX/main.o: main.cpp Information.hpp \
   ../ATL/Distributions/../SpecialFunctions/Functions.hpp \
   ../ATL/Statistics/Descriptive.hpp ../ATL/Utilities/IO/Console.hpp \
   ../ATL/Utilities/IO/StreamedDataFile.hpp \
-  ../ATL/Optimization/FunctionMinimizer.hpp Common.hpp Recruitment.hpp \
-  LHParameters.hpp
+  ../ATL/Optimization/FunctionMinimizer.hpp Area.hpp Population.hpp \
+  Recruitment.hpp LHParameters.hpp Growth.hpp
 
 Information.hpp:
+
+Common.hpp:
 
 third_party/rapidjson/document.h:
 
@@ -99,10 +101,6 @@ third_party/rapidjson/internal/pow10.h:
 third_party/rapidjson/error/error.h:
 
 third_party/rapidjson/internal/strfunc.h:
-
-Area.hpp:
-
-Population.hpp:
 
 ../ATL/ATL.hpp:
 
@@ -268,8 +266,12 @@ Population.hpp:
 
 ../ATL/Optimization/FunctionMinimizer.hpp:
 
-Common.hpp:
+Area.hpp:
+
+Population.hpp:
 
 Recruitment.hpp:
 
 LHParameters.hpp:
+
+Growth.hpp:

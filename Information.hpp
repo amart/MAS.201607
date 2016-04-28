@@ -18,11 +18,13 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-#include "third_party/rapidjson/document.h"
+//#include "third_party/rapidjson/document.h"
+#include "Common.hpp"
 #include "Area.hpp"
 #include "Population.hpp"
 #include "Recruitment.hpp"
 #include "LHParameters.hpp"
+#include "Growth.hpp"
 
 namespace noaa {
     namespace mas {
@@ -108,6 +110,7 @@ namespace noaa {
 
                     for (int i = 0; i < (*mit).value.Size(); i++) {
                         Population<T> p;
+                       
                         rapidjson::Document::MemberIterator jt;
                         rapidjson::Value& v = (*mit).value[i];
                         rapidjson::Document::MemberIterator am = v.FindMember("population");
@@ -286,7 +289,33 @@ namespace noaa {
             }
 
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
-                std::cout << __func__ << " not yet implemented.\n";
+                
+                rapidjson::Document::MemberIterator t = (*mit).value.FindMember("type");
+//                rapidjson::Document::MemberIterator p = (*mit).value.FindMember("parameters");
+                Growth<T>* growth;
+                
+                if(t == (*mit).value.MemberEnd()){
+                    
+                    GrowthType gt = Growth<T>::GetGrowthType(std::string((*t).value.GetString()));
+                    
+                    switch(gt){
+                        
+                        case VONB:
+                            growth = VonB<T>::Create(mit);
+                         
+                            break;
+                        
+                        default:    
+                            std::cout<<"Unknown Growth!\n";
+                        
+                        
+                        
+                    }
+                    
+                    
+                }
+                
+                
             }
 
 

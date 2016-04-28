@@ -14,6 +14,9 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#include "third_party/rapidjson/document.h"
+#include "../ATL/ATL.hpp"
+
 namespace noaa {
     namespace mas {
 
@@ -24,7 +27,8 @@ namespace noaa {
         };
         
         enum GrowthType{
-            VONB = 0
+            VONB = 0,
+            UNKNOWN_GROWTH
         };
         
         enum ErrorType {
