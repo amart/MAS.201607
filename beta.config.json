@@ -33,57 +33,56 @@
                 }
             },
             "LHparameters": {
-                "M" : [
-                        {
-                            "gender": "female",
-                            "valuevec": [ 0.2 ],
-                            "estimated": "false"
-                        },
-                        {
-                            "gender": "male",
-                            "valuevec": [ 0.21 ],
-                            "estimated": "false"
-                        }
-                    ]
+                "M": [
+                    {
+                        "gender": "female",
+                        "valuevec": [0.2],
+                        "estimated": "false"
+                    },
+                    {
+                        "gender": "male",
+                        "valuevec": [0.21],
+                        "estimated": "false"
+                    }
+                ]
             },
-            "movement": [
-                {
-                    "season": 1,
-                    "matrix": [
-                        [ 1, 0 ],
-                        [ 1, 1 ]
-                    ]
-                }
-            ],
+            "movement":
+                    {
+                        "season": 1,
+                        "matrix": [
+                            [1, 0],
+                            [1, 1]
+                        ]
+                    },
             "growth": {
                 "type": "vonB",
                 "parameters": {
                     "Amin": {
-                        "valuevec": [ 2.33333, 2.33333 ],
+                        "valuevec": [2.33333, 2.33333],
                         "estimated": "false"
                     },
                     "Amax": {
-                        "valuevec": [ 30.33333, 30.33333 ],
+                        "valuevec": [30.33333, 30.33333],
                         "estimated": "false"
                     },
                     "L1": {
-                        "valuevec": [ 8.0, 12.0 ],
+                        "valuevec": [8.0, 12.0],
                         "estimated": "true"
                     },
                     "CV_L1": {
-                        "valuevec": [ 2.5, 2.3 ],
+                        "valuevec": [2.5, 2.3],
                         "estimated": "true"
                     },
                     "L2": {
-                        "valuevec": [ 45.0, 40.0 ],
+                        "valuevec": [45.0, 40.0],
                         "estimated": "true"
                     },
                     "CV_L2": {
-                        "valuevec": [ 4.5, 4.3 ],
+                        "valuevec": [4.5, 4.3],
                         "estimated": "true"
                     },
                     "k": {
-                        "valuevec": [ 0.30, 0.24 ],
+                        "valuevec": [0.30, 0.24],
                         "estimated": "true"
                     }
                 }
@@ -105,57 +104,56 @@
                 }
             },
             "LHparameters": {
-                "M" : [
-                        {
-                            "gender": "female",
-                            "valuevec": [ 0.2 ],
-                            "estimated": "false"
-                        },
-                        {
-                            "gender": "male",
-                            "valuevec": [ 0.24 ],
-                            "estimated": "false"
-                        }
+                "M": [
+                    {
+                        "gender": "female",
+                        "valuevec": [0.2],
+                        "estimated": "false"
+                    },
+                    {
+                        "gender": "male",
+                        "valuevec": [0.24],
+                        "estimated": "false"
+                    }
                 ]
             },
-            "movement": [
-                {
-                    "season": 1,
-                    "matrix": [
-                        [ 1, 0 ],
-                        [ 1, 1 ]
-                    ]
-                }
-            ],
+            "movement":
+                    {
+                        "season": 1,
+                        "matrix": [
+                            [1, 0],
+                            [1, 1]
+                        ]
+                    },
             "growth": {
                 "type": "vonB",
                 "parameters": {
                     "Amin": {
-                        "valuevec": [ 2.08333, 2.08333 ],
+                        "valuevec": [2.08333, 2.08333],
                         "estimated": "false"
                     },
                     "Amax": {
-                        "valuevec": [ 30.08333, 30.08333 ],
+                        "valuevec": [30.08333, 30.08333],
                         "estimated": "false"
                     },
                     "L1": {
-                        "valuevec": [ 8.0, 12.0 ],
+                        "valuevec": [8.0, 12.0],
                         "estimated": "true"
                     },
                     "CV_L1": {
-                        "valuevec": [ 2.5, 2.3 ],
+                        "valuevec": [2.5, 2.3],
                         "estimated": "true"
                     },
                     "L2": {
-                        "valuevec": [ 50.0, 40.0 ],
+                        "valuevec": [50.0, 40.0],
                         "estimated": "true"
                     },
                     "CV_L2": {
-                        "valuevec": [ 4.5, 4.3 ],
+                        "valuevec": [4.5, 4.3],
                         "estimated": "true"
                     },
                     "k": {
-                        "valuevec": [ 0.17, 0.15 ],
+                        "valuevec": [0.17, 0.15],
                         "estimated": "true"
                     }
                 }

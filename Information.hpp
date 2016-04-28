@@ -25,6 +25,7 @@
 #include "Recruitment.hpp"
 #include "LHParameters.hpp"
 #include "Growth.hpp"
+#include "Movement.hpp"
 
 namespace noaa {
     namespace mas {
@@ -69,7 +70,6 @@ namespace noaa {
                 rapidjson::Document::MemberIterator mit;
 
                 for (mit = document.MemberBegin(); mit != document.MemberEnd(); ++mit) {
-                    std::cout << (*mit).name.GetString() << "\n";
                     if (std::string((*mit).name.GetString()) == "areas") {
                         this->CreateAreas(mit);
                     }
@@ -154,7 +154,6 @@ namespace noaa {
 
                         case BEVERTON_HOLT:
                         {
-                            std::cout << "Beverton-Holt\n";
                             recruitment_model = new BevertonHolt<T>();
                             BevertonHolt<T>* bh = (BevertonHolt<T>*)recruitment_model;
                             p.recruitment_model = bh;
@@ -250,7 +249,6 @@ namespace noaa {
                                     mort.m.Resize(size);
                                     for (int j = 0; j < size; j++) {
                                         mort.m(j) = static_cast<T> ((*vect).value[j].GetDouble());
-                                        std::cout << mort.m(j) << "\n";
                                     }
                                 }
                             }
@@ -285,7 +283,7 @@ namespace noaa {
             }
 
             void CreatePopulationMovement(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
-                std::cout << __func__ << " not yet implemented.\n";
+                Movement<T>::Create(mit);
             }
 
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {

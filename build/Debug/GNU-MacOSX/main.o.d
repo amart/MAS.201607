@@ -68,7 +68,7 @@ build/Debug/GNU-MacOSX/main.o: main.cpp Information.hpp Common.hpp \
   ../ATL/Statistics/Descriptive.hpp ../ATL/Utilities/IO/Console.hpp \
   ../ATL/Utilities/IO/StreamedDataFile.hpp \
   ../ATL/Optimization/FunctionMinimizer.hpp Area.hpp Population.hpp \
-  Recruitment.hpp LHParameters.hpp Growth.hpp
+  Recruitment.hpp LHParameters.hpp Growth.hpp Movement.hpp
 
 Information.hpp:
 
@@ -275,3 +275,5 @@ Recruitment.hpp:
 LHParameters.hpp:
 
 Growth.hpp:
+
+Movement.hpp:
