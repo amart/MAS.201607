@@ -1,0 +1,249 @@
+{
+    "areas": [
+        {
+            "area": 1,
+            "areaName": "omega"
+        },
+        {
+            "area": 2,
+            "areaName": "mu"
+        }
+    ],
+    "seasons": [
+        {
+            "season": 1,
+            "seasonName": "s1",
+            "months": 12
+        }
+    ],
+    "populations": [
+        {
+            "population": 1,
+            "stock-recruit": {
+                "type": "Beverton-Holt",
+                "parameters": {
+                    "R0": {
+                        "value": 100000000.0,
+                        "estimated": "true"
+                    },
+                    "h": {
+                        "value": 1.0,
+                        "estimated": "false"
+                    }
+                }
+            },
+            "LHparameters": {
+                "M" : [
+                        {
+                            "gender": "female",
+                            "valuevec": [ 0.2 ],
+                            "estimated": "false"
+                        },
+                        {
+                            "gender": "male",
+                            "valuevec": [ 0.21 ],
+                            "estimated": "false"
+                        }
+                    ]
+            },
+            "movement": [
+                {
+                    "season": 1,
+                    "matrix": [
+                        [ 1, 0 ],
+                        [ 1, 1 ]
+                    ]
+                }
+            ],
+            "growth": {
+                "type": "vonB",
+                "parameters": {
+                    "Amin": {
+                        "valuevec": [ 2.33333, 2.33333 ],
+                        "estimated": "false"
+                    },
+                    "Amax": {
+                        "valuevec": [ 30.33333, 30.33333 ],
+                        "estimated": "false"
+                    },
+                    "L1": {
+                        "valuevec": [ 8.0, 12.0 ],
+                        "estimated": "true"
+                    },
+                    "CV_L1": {
+                        "valuevec": [ 2.5, 2.3 ],
+                        "estimated": "true"
+                    },
+                    "L2": {
+                        "valuevec": [ 45.0, 40.0 ],
+                        "estimated": "true"
+                    },
+                    "CV_L2": {
+                        "valuevec": [ 4.5, 4.3 ],
+                        "estimated": "true"
+                    },
+                    "k": {
+                        "valuevec": [ 0.30, 0.24 ],
+                        "estimated": "true"
+                    }
+                }
+            }
+        },
+        {
+            "population": 2,
+            "stock-recruit": {
+                "type": "Beverton-Holt",
+                "parameters": {
+                    "R0": {
+                        "value": 200000000.0,
+                        "estimated": "true"
+                    },
+                    "h": {
+                        "value": 1.0,
+                        "estimated": "false"
+                    }
+                }
+            },
+            "LHparameters": {
+                "M" : [
+                        {
+                            "gender": "female",
+                            "valuevec": [ 0.2 ],
+                            "estimated": "false"
+                        },
+                        {
+                            "gender": "male",
+                            "valuevec": [ 0.24 ],
+                            "estimated": "false"
+                        }
+                ]
+            },
+            "movement": [
+                {
+                    "season": 1,
+                    "matrix": [
+                        [ 1, 0 ],
+                        [ 1, 1 ]
+                    ]
+                }
+            ],
+            "growth": {
+                "type": "vonB",
+                "parameters": {
+                    "Amin": {
+                        "valuevec": [ 2.08333, 2.08333 ],
+                        "estimated": "false"
+                    },
+                    "Amax": {
+                        "valuevec": [ 30.08333, 30.08333 ],
+                        "estimated": "false"
+                    },
+                    "L1": {
+                        "valuevec": [ 8.0, 12.0 ],
+                        "estimated": "true"
+                    },
+                    "CV_L1": {
+                        "valuevec": [ 2.5, 2.3 ],
+                        "estimated": "true"
+                    },
+                    "L2": {
+                        "valuevec": [ 50.0, 40.0 ],
+                        "estimated": "true"
+                    },
+                    "CV_L2": {
+                        "valuevec": [ 4.5, 4.3 ],
+                        "estimated": "true"
+                    },
+                    "k": {
+                        "valuevec": [ 0.17, 0.15 ],
+                        "estimated": "true"
+                    }
+                }
+            }
+        }
+    ],
+    "fisheries": [
+        {
+            "fleet": 1,
+            "fleetName": "Adam",
+            "selectivity": [
+                {
+                    "season": 1,
+                    "area": 1,
+                    "base": "length",
+                    "type": "logistic",
+                    "parameters": {
+                        "alpha": {
+                            "value": 1.0,
+                            "estimated": "true"
+                        },
+                        "beta": {
+                            "value": 0.5,
+                            "estimated": "true"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "fleet": 2,
+            "fleetName": "Burt",
+            "selectivity": [
+                {
+                    "season": 1,
+                    "area": 2,
+                    "base": "length",
+                    "type": "logistic",
+                    "parameters": {
+                        "alpha": {
+                            "value": 1.0,
+                            "estimated": "true"
+                        },
+                        "beta": {
+                            "value": 0.5,
+                            "estimated": "true"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "fleet": 3,
+            "fleetName": "srv1",
+            "selectivity": [
+                {
+                    "season": 1,
+                    "area": 1,
+                    "base": "age",
+                    "type": "logistic",
+                    "parameters": {
+                        "alpha": {
+                            "value": 1.0,
+                            "estimated": "true"
+                        },
+                        "beta": {
+                            "value": 0.5,
+                            "estimated": "true"
+                        }
+                    }
+                },
+                {
+                    "season": 1,
+                    "area": 2,
+                    "base": "age",
+                    "type": "logistic",
+                    "parameters": {
+                        "alpha": {
+                            "value": 1.0,
+                            "estimated": "true"
+                        },
+                        "beta": {
+                            "value": 0.5,
+                            "estimated": "true"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
