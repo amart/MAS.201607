@@ -289,7 +289,6 @@ namespace noaa {
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
                 
                 rapidjson::Document::MemberIterator t = (*mit).value.FindMember("type");
-//                rapidjson::Document::MemberIterator p = (*mit).value.FindMember("parameters");
                 Growth<T>* growth;
                 
                 if(t == (*mit).value.MemberEnd()){
