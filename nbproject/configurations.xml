@@ -5,6 +5,7 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Area.hpp</itemPath>
+      <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Catch.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Common.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Config.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Fishery.hpp</itemPath>
@@ -42,6 +43,7 @@
     </logicalFolder>
     <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.config.json</itemPath>
     <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.data.json</itemPath>
+    <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/get_ATL.sh</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS</Elem>
@@ -60,6 +62,11 @@
         </ccTool>
       </compileType>
       <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Area.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Catch.hpp"
             ex="false"
             tool="3"
             flavor2="0">
@@ -140,6 +147,11 @@
             flavor2="0">
       </item>
       <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.data.json"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/get_ATL.sh"
             ex="false"
             tool="3"
             flavor2="0">
@@ -173,6 +185,11 @@
             tool="3"
             flavor2="0">
       </item>
+      <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Catch.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
       <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Common.hpp"
             ex="false"
             tool="3"
@@ -249,6 +266,11 @@
             flavor2="0">
       </item>
       <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.data.json"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/get_ATL.sh"
             ex="false"
             tool="3"
             flavor2="0">

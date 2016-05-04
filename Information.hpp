@@ -18,7 +18,6 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
-//#include "third_party/rapidjson/document.h"
 #include "Common.hpp"
 #include "Area.hpp"
 #include "Population.hpp"
@@ -82,13 +81,42 @@ namespace noaa {
 
             }
 
+            void ParseData(const std::string& path) {
+                std::stringstream ss;
+                std::ifstream config;
+                config.open(path.c_str());
+                if (!config.good()) {
+                    std::cerr << "MAS Configuration file \"" << path << "\" not found.\n";
+                    exit(0);
+                }
+
+                while (config.good()) {
+                    std::string line;
+                    std::getline(config, line);
+                    ss << line << "\n";
+                }
+
+                rapidjson::Document document;
+                document.Parse(ss.str().c_str());
+
+                rapidjson::Document::MemberIterator mit;
+
+                for (mit = document.MemberBegin(); mit != document.MemberEnd(); ++mit) {
+ 
+                    if (std::string((*mit).name.GetString()) == "populations") {
+                        this->CreatePopulationsData(mit);
+                    }
+                }
+
+            }
+
         private:
 
-            void CreateAreas(rapidjson::Document::MemberIterator& mit) {
+            void CreateAreas(rapidjson::Document::MemberIterator & mit) {
                 rapidjson::Document::ValueIterator it;
                 if ((*mit).value.IsArray()) {
                     for (int i = 0; i < (*mit).value.Size(); i++) {
-                        rapidjson::Document::MemberIterator jt;
+//                        rapidjson::Document::MemberIterator jt;
                         rapidjson::Value& v = (*mit).value[i];
                         noaa::mas::Area<T> area;
                         rapidjson::Document::MemberIterator am = v.FindMember("area");
@@ -105,12 +133,12 @@ namespace noaa {
                 }
             }
 
-            void CreatePopulations(rapidjson::Document::MemberIterator& mit) {
+            void CreatePopulations(rapidjson::Document::MemberIterator & mit) {
                 if ((*mit).value.IsArray()) {
 
                     for (int i = 0; i < (*mit).value.Size(); i++) {
                         Population<T> p;
-                       
+
                         rapidjson::Document::MemberIterator jt;
                         rapidjson::Value& v = (*mit).value[i];
                         rapidjson::Document::MemberIterator am = v.FindMember("population");
@@ -264,8 +292,8 @@ namespace noaa {
                             rapidjson::Document::MemberIterator estimated = v.FindMember("estimated");
                             if (estimated != v.MemberEnd()) {
                                 if (std::string((*estimated).value.GetString()) == "true") {
-                                    for(int j = 0; j < mort.m.Size(0); j++){
-                                        mort.estimable.push_back(std::make_pair(&mort.m(j),phase));
+                                    for (int j = 0; j < mort.m.Size(0); j++) {
+                                        mort.estimable.push_back(std::make_pair(&mort.m(j), phase));
                                     }
                                 }
                             }
@@ -287,34 +315,38 @@ namespace noaa {
             }
 
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
-                
+
                 rapidjson::Document::MemberIterator t = (*mit).value.FindMember("type");
                 Growth<T>* growth;
-                
-                if(t == (*mit).value.MemberEnd()){
-                    
+
+                if (t == (*mit).value.MemberEnd()) {
+
                     GrowthType gt = Growth<T>::GetGrowthType(std::string((*t).value.GetString()));
-                    
-                    switch(gt){
-                        
+
+                    switch (gt) {
+
                         case VONB:
                             growth = VonB<T>::Create(mit);
-                         
+
                             break;
-                        
-                        default:    
-                            std::cout<<"Unknown Growth!\n";
-                        
-                        
-                        
+
+                        default:
+                            std::cout << "Unknown Growth!\n";
+
+
+
                     }
-                    
-                    
+
+
                 }
-                
-                
+
+
             }
 
+            void CreatePopulationsData(rapidjson::Document::MemberIterator & mit) {
+                std::vector<PopulationData<T> > data =
+                        PopulationData<T>::Create(mit);
+            }
 
         };
     }

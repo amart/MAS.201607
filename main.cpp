@@ -21,6 +21,7 @@ using namespace std;
 int main(int argc, char** argv) {
     noaa::mas::Information<double> info;
     info.ParseConfig("beta.config.json");
+    info.ParseData("beta.data.json");
     return 0;
 }
 

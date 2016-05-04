@@ -15,7 +15,7 @@
 #define COMMON_HPP
 
 #include "third_party/rapidjson/document.h"
-#include "../ATL/ATL.hpp"
+#include "ATL/ATL.hpp"
 
 namespace noaa {
     namespace mas {

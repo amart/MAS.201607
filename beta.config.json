@@ -42,7 +42,8 @@
                     {
                         "gender": "male",
                         "valuevec": [0.21],
-                        "estimated": "false"
+                        "estimated": "false",
+                        "phase": 1
                     }
                 ]
             },

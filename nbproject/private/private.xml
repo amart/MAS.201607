@@ -4,4 +4,27 @@
         <activeConfTypeElem>1</activeConfTypeElem>
         <activeConfIndexElem>0</activeConfIndexElem>
     </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Selectivity.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Area.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Population.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Common.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/MAS.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/LHParameters.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Growth.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Survey.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/get_ATL.sh</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Movement.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Catch.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/ModelFunctor.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.config.json</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/main.cpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Fleet.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Information.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Recruitment.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.data.json</file>
+        </group>
+    </open-files>
 </project-private>
