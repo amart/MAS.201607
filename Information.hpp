@@ -54,6 +54,21 @@ namespace noaa {
             ~Information() {
                
             }
+            
+            
+            void Initialize(){
+                for(int i =0; i < this->subpopulations.size(); i++){
+                    population_data_iterator it = population_data.find(this->subpopulations[i].id);
+                    if(it != population_data.end()){
+                        this->subpopulations[i].data = &(*it).second;
+                        this->subpopulations[i].valid = true;
+                    }else{
+                        std::cout<<"Warning: No data found for population with id "<<this->subpopulations[i].data<<"\n";
+                        
+                    }
+                    
+                }
+            }
 
             void ParseConfig(const std::string& path) {
                 std::stringstream ss;

@@ -956,21 +956,29 @@ namespace noaa {
         struct Population {
             int id;
             std::shared_ptr<Recruitment<T> > recruitment_model;
-            std::vector<CatchData<T> > catch_data;
-
+            PopulationData<T>* data;
+            bool valid = false;
             Population() {
             }
 
             Population(const Population<T>& other) :
-            id(other.id), recruitment_model(other.recruitment_model), catch_data(other.catch_data) {
+            id(other.id), recruitment_model(other.recruitment_model) {
             }
 
             ~Population() {
-                //                if (recruitment_model) {
-                ////                    delete recruitment_model;
-                //                }
+                
             }
         };
+        
+        template<typename T>
+        std::ostream& operator <<(std::ostream& out, const Population<T>& pop){
+            out<<"Population:\n";
+            out<<pop.id;
+            if(pop.valid && pop.data != NULL){
+                out<<*pop.data;
+            }
+            return out;
+        }
 
 
     }
