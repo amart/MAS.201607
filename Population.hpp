@@ -14,6 +14,9 @@
 #ifndef POPULATION_HPP
 #define POPULATION_HPP
 
+
+#include <memory>
+
 #include "../ATL/ATL.hpp"
 
 #include "Common.hpp"
@@ -40,6 +43,28 @@ namespace noaa {
         };
 
         template<typename T>
+        std::ostream& operator<<(std::ostream& out, const CatchData<T>& data) {
+            out << "Catch Data:\n";
+            out << "Fleet: " << data.fleet << "\n";
+            out << "Area: " << data.area << "\n";
+            out << "Season: " << data.season << "\n";
+            out << "Catch:" << data.catch_vector << "\n";
+
+            out << "\n";
+            out << "Catch Error Type: " << data.error_type << "\n";
+
+            out << "Catch Error:" << data.error_vector << "\n";
+
+            out << "Index:" << data.index_vector << "\n";
+            out << "\n";
+            out << "Index Error Type: " << data.index_error_type << "\n";
+
+            out << "Index Error:" << data.index_error_vector << "\n";
+
+            return out;
+        }
+
+        template<typename T>
         struct LengthComposition {
             int fleet;
             int area;
@@ -50,6 +75,19 @@ namespace noaa {
             atl::Matrix<T> length_prop_matrix;
 
         };
+
+        template<typename T>
+        std::ostream& operator<<(std::ostream& out, const LengthComposition<T>& data) {
+            out << "Length Composition:\n";
+            out << "Fleet: " << data.fleet << "\n";
+            out << "Area: " << data.area << "\n";
+            out << "Season: " << data.season << "\n";
+            out << "Gender Type: " << data.gender << "\n";
+            out << "Years:" << data.year_vector << "\n";
+            out << "Number of Samples:" << data.nsample_vector << "\n";
+            out << "Length Prop:\n" << data.length_prop_matrix << "\n";
+            return out;
+        }
 
         template<typename T>
         struct AgeComposition {
@@ -64,6 +102,19 @@ namespace noaa {
         };
 
         template<typename T>
+        std::ostream& operator<<(std::ostream& out, const AgeComposition<T>& data) {
+            out << "Age Composition:\n";
+            out << "Fleet: " << data.fleet << "\n";
+            out << "Area: " << data.area << "\n";
+            out << "Season: " << data.season << "\n";
+            out << "Gender Type: " << data.gender << "\n";
+            out << "Years:" << data.year_vector << "\n";
+            out << "Number of Samples:" << data.nsample_vector << "\n";
+            out << "Age Prop:\n" << data.age_propogation_matrix << "\n";
+            return out;
+        }
+
+        template<typename T>
         struct MeanSizeAtAge {
             int fleet;
             int area;
@@ -75,12 +126,33 @@ namespace noaa {
         };
 
         template<typename T>
+        std::ostream& operator<<(std::ostream& out, const MeanSizeAtAge<T>& data) {
+            out << "Mean Size At Age:\n";
+            out << "Fleet: " << data.fleet << "\n";
+            out << "Area: " << data.area << "\n";
+            out << "Season: " << data.season << "\n";
+            out << "Gender Type: " << data.gender << "\n";
+            out << "Years:" << data.year_vector << "\n";
+            out << "MSA:\n" << data.msa_matrix << "\n";
+            return out;
+        }
+
+        template<typename T>
         struct AgeError {
             GenderType gender;
             atl::Vector<T> age_vector;
             atl::Vector<T> error_vector;
 
         };
+
+        template<typename T>
+        std::ostream& operator<<(std::ostream& out, const AgeError<T>& data) {
+            out << "Age Error:\n";
+            out << "Gender Type: " << data.gender << "\n";
+            out << "Age:" << data.age_vector << "\n";
+            out << "Error:\n" << data.error_vector << "\n";
+            return out;
+        }
 
         template<typename T>
         struct PopulationData {
@@ -780,15 +852,68 @@ namespace noaa {
         };
 
         template<typename T>
+        std::ostream& operator<<(std::ostream& out, PopulationData<T>& data) {
+
+            out << "Begin Population Data: \n";
+            out << "Id: " << data.id << "\n";
+            out << "Name: " << data.name << "\n";
+            out << "First Year: " << data.first_year << "\n";
+            out << "Last Year: " << data.last_year << "\n";
+            out << "Spawn month: " << data.spawn_month << "\n";
+            //            out << "Gender Types:" << data.gender_types << "\n";
+            out << "Gender Types:[ ";
+            for (int i = 0; i < data.gender_types.size(); i++) {
+                out << data.gender_types[i] << " ";
+            }
+            out << "]\n";
+            out << "Ages: " << data.ages << "\n";
+            out << "Lengths: " << data.lengths << "\n";
+
+            //            out << "Catch Data:\n";
+            for (int i = 0; i < data.catch_data.size(); i++) {
+                out << data.catch_data[i] << "\n";
+            }
+
+            //            out << "Length Composition:\n";
+            for (int i = 0; i < data.length_composition.size(); i++) {
+                out << data.length_composition[i] << "\n";
+            }
+
+            //            out << "Age Composition:\n";
+            for (int i = 0; i < data.age_composition.size(); i++) {
+                out << data.age_composition[i] << "\n";
+            }
+
+            //            out << "Mean Size at Age:\n";
+            for (int i = 0; i < data.msa_data.size(); i++) {
+                out << data.msa_data[i] << "\n";
+            }
+
+            //            out << "Age Error:\n";
+            for (int i = 0; i < data.age_error.size(); i++) {
+                out << data.age_error[i] << "\n";
+            }
+            out << "End Population Data\n";
+            return out;
+        }
+
+        template<typename T>
         struct Population {
             int id;
-            Recruitment<T>* recruitment_model = NULL;
+            std::shared_ptr<Recruitment<T> > recruitment_model;
             std::vector<CatchData<T> > catch_data;
 
+            Population() {
+            }
+
+            Population(const Population<T>& other) :
+            id(other.id), recruitment_model(other.recruitment_model), catch_data(other.catch_data) {
+            }
+
             ~Population() {
-                if (recruitment_model) {
-                    delete recruitment_model;
-                }
+                //                if (recruitment_model) {
+                ////                    delete recruitment_model;
+                //                }
             }
         };
 

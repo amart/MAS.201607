@@ -14,12 +14,16 @@
 #ifndef FLEET_HPP
 #define FLEET_HPP
 
+#include "Selectivity.hpp"
+
 namespace noaa{
     namespace mas{
      
         template<typename T>
-        class Fleet{
-            
+        struct Fleet{
+            int id;
+            std::string fleet_name;
+            std::vector<std::shared_ptr<Selectivity<T> > > selectivity;
         };
         
         

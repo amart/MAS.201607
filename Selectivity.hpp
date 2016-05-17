@@ -14,12 +14,47 @@
 #ifndef SELECTIVITY_HPP
 #define SELECTIVITY_HPP
 
+#include "Common.hpp"
+
 namespace noaa {
     namespace mas {
 
         template<typename T>
-        class Selectivity {
+        struct Selectivity : ModelFunctor<T> {
+            int season;
+            int area;
+
+            virtual void Evaluate() {
+
+            }
         };
+
+        template<typename T>
+        struct Logistic : Selectivity<T> {
+            atl::Variable<T> alpha;
+            atl::Variable<T> beta;
+
+            virtual void Evaluate() {
+
+            }
+        };
+
+        template<typename T>
+        struct LengthBasedLogistic : Logistic<T> {
+
+            virtual void Evaluate() {
+
+            }
+        };
+
+        template<typename T>
+        struct AgeBasedLogistic : Logistic<T> {
+
+            virtual void Evaluate() {
+
+            }
+        };
+
 
 
     }

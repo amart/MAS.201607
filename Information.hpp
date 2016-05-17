@@ -25,6 +25,7 @@
 #include "LHParameters.hpp"
 #include "Growth.hpp"
 #include "Movement.hpp"
+#include "Fishery.hpp"
 
 namespace noaa {
     namespace mas {
@@ -44,9 +45,14 @@ namespace noaa {
 
 
             std::vector<Area<T> > areas;
-            //            std::vector<Population<T> > subpopulations;
-            //            std::vector<Fleet<T> > fleets;
-            //            std::vector<Survey<T> > surveys;
+            std::vector<Population<T> > subpopulations;
+            std::vector<PopulationData<T> > population_data;
+            std::vector<Fishery<T> > fisheries;
+            
+
+            ~Information() {
+               
+            }
 
             void ParseConfig(const std::string& path) {
                 std::stringstream ss;
@@ -76,6 +82,9 @@ namespace noaa {
                     if (std::string((*mit).name.GetString()) == "populations") {
                         this->CreatePopulations(mit);
                     }
+                    if (std::string((*mit).name.GetString()) == "fisheries") {
+                        this->CreateFisheries(mit);
+                    }
                 }
 
 
@@ -102,7 +111,7 @@ namespace noaa {
                 rapidjson::Document::MemberIterator mit;
 
                 for (mit = document.MemberBegin(); mit != document.MemberEnd(); ++mit) {
- 
+
                     if (std::string((*mit).name.GetString()) == "populations") {
                         this->CreatePopulationsData(mit);
                     }
@@ -116,7 +125,7 @@ namespace noaa {
                 rapidjson::Document::ValueIterator it;
                 if ((*mit).value.IsArray()) {
                     for (int i = 0; i < (*mit).value.Size(); i++) {
-//                        rapidjson::Document::MemberIterator jt;
+                        //                        rapidjson::Document::MemberIterator jt;
                         rapidjson::Value& v = (*mit).value[i];
                         noaa::mas::Area<T> area;
                         rapidjson::Document::MemberIterator am = v.FindMember("area");
@@ -167,12 +176,13 @@ namespace noaa {
                         }
 
 
-
+                        this->subpopulations.push_back(p);
                     }
                 }
             }
 
             void CreatePopulationStockRecruit(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
+                std::cout << __func__ << ":";
                 rapidjson::Value& v = (*mit).value;
                 rapidjson::Document::MemberIterator am = v.FindMember("type");
                 if (am != v.MemberEnd()) {
@@ -182,9 +192,10 @@ namespace noaa {
 
                         case BEVERTON_HOLT:
                         {
-                            recruitment_model = new BevertonHolt<T>();
-                            BevertonHolt<T>* bh = (BevertonHolt<T>*)recruitment_model;
-                            p.recruitment_model = bh;
+                            std::cout << "BEVERTON_HOLT \n";
+                            //                            recruitment_model = std::make_signed<BevertonHolt<T> >();
+                            p.recruitment_model = std::make_shared<BevertonHolt<T> >();
+                            BevertonHolt<T>* bh = (BevertonHolt<T>*)p.recruitment_model.get();
                             am = v.FindMember("parameters");
                             if (am != v.MemberEnd()) {
                                 rapidjson::Document::MemberIterator param =
@@ -344,8 +355,14 @@ namespace noaa {
             }
 
             void CreatePopulationsData(rapidjson::Document::MemberIterator & mit) {
-                std::vector<PopulationData<T> > data =
+                this->population_data =
                         PopulationData<T>::Create(mit);
+            }
+            
+            void CreateFisheries(rapidjson::Document::MemberIterator & mit){
+                std::cout<<__func__<<"\n";
+                Fishery<T> f = Fishery<T>::Create(mit);
+                this->fisheries.push_back(f);
             }
 
         };

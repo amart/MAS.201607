@@ -231,7 +231,7 @@
                     "area": 2,
                     "base": "age",
                     "type": "logistic",
-                    "parameters": {
+                    "parameters": { 
                         "alpha": {
                             "value": 1.0,
                             "estimated": "true"
