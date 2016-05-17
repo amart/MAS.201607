@@ -285,7 +285,8 @@ namespace noaa {
                 rapidjson::Document::MemberIterator am = (*mit).value.FindMember("M");
                 if (am != (*mit).value.MemberEnd()) {
                     rapidjson::Value& m = (*am).value;
-                    LHParameters<T>* lhp = new LHParameters<T>();
+                    std::shared_ptr<LHParameters<T> > lhp(new LHParameters<T>());
+                    p.lh_parameters = lhp;
                     if (m.IsArray()) {
                         for (int i = 0; i < m.Size(); i++) {
                             Mortality<T> mort;
@@ -344,7 +345,7 @@ namespace noaa {
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
 
                 rapidjson::Document::MemberIterator t = (*mit).value.FindMember("type");
-                Growth<T>* growth;
+                std::shared_ptr<Growth<T> > growth;
 
                 if (t == (*mit).value.MemberEnd()) {
 
@@ -353,7 +354,7 @@ namespace noaa {
                     switch (gt) {
 
                         case VONB:
-                            growth = VonB<T>::Create(mit);
+                            growth = std::shared_ptr<VonB<T> >(VonB<T>::Create(mit));
 
                             break;
 

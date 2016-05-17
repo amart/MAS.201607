@@ -21,6 +21,8 @@
 
 #include "Common.hpp"
 #include "Recruitment.hpp"
+#include "Growth.hpp"
+#include "LHParameters.hpp"
 
 namespace noaa {
     namespace mas {
@@ -956,8 +958,11 @@ namespace noaa {
         struct Population {
             int id;
             std::shared_ptr<Recruitment<T> > recruitment_model;
+            std::shared_ptr<Growth<T> > growth_model;
+            std::shared_ptr<LHParameters<T> > lh_parameters;    
             PopulationData<T>* data;
             bool valid = false;
+            
             Population() {
             }
 
@@ -973,7 +978,7 @@ namespace noaa {
         template<typename T>
         std::ostream& operator <<(std::ostream& out, const Population<T>& pop){
             out<<"Population:\n";
-            out<<pop.id;
+            out<<pop.id<<"\n";
             if(pop.valid && pop.data != NULL){
                 out<<*pop.data;
             }
