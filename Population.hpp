@@ -170,9 +170,9 @@ namespace noaa {
             std::vector<MeanSizeAtAge<T> > msa_data;
             std::vector<AgeError<T> > age_error;
 
-            static const std::vector<PopulationData<T> > Create(rapidjson::Document::MemberIterator& population_data) {
+            static const std::map<int,PopulationData<T> > Create(rapidjson::Document::MemberIterator& population_data) {
 
-                std::vector<PopulationData<T> > data;
+                std::map<int,PopulationData<T> > data;
 
                 if ((*population_data).value.IsArray()) {
                     for (int i = 0; i < (*population_data).value.Size(); i++) {
@@ -895,7 +895,7 @@ namespace noaa {
                             }
                         }
 
-                        data.push_back(pop_data);
+                        data[pop_data.id] = pop_data;
                     }
 
                 }

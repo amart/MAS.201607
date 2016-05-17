@@ -22,8 +22,9 @@ int main(int argc, char** argv) {
     noaa::mas::Information<double> info;
     info.ParseConfig("beta.config.json");
     info.ParseData("beta.data.json");
-    for (int i = 0; i < info.population_data.size(); i++) {
-        std::cout<<info.population_data[i]<<"\n";
+    noaa::mas::Information<double>::population_data_iterator it;
+    for (it = info.population_data.begin(); it !=  info.population_data.end(); ++it) {
+        std::cout<<(*it).second<<"\n";
     }
     return 0;
 }

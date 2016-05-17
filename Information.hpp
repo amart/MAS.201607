@@ -46,7 +46,8 @@ namespace noaa {
 
             std::vector<Area<T> > areas;
             std::vector<Population<T> > subpopulations;
-            std::vector<PopulationData<T> > population_data;
+            std::map<int, PopulationData<T> > population_data;
+            typedef typename std::map<int,PopulationData<T> >::iterator population_data_iterator;
             std::vector<Fishery<T> > fisheries;
             
 
