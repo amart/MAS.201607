@@ -33,11 +33,11 @@ namespace noaa {
 
             atl::Vector<int> year_vector;
 
-            ErrorType error_type;
+            ErrorType error_type = NA;
             atl::Vector<T> catch_vector;
             atl::Vector<T> error_vector;
 
-            ErrorType index_error_type;
+            ErrorType index_error_type = NA;
             atl::Vector<T> index_vector;
             atl::Vector<T> index_error_vector;
         };
@@ -352,6 +352,8 @@ namespace noaa {
                                         std::cout << "Population data error, \"catch\" missing \"area\" value.\n";
                                         exit(0);
                                     }
+                                    
+                                    
 
                                     temp = (*catch_).value[j].FindMember("area");
                                     if ((temp) != (*catch_).value[j].MemberEnd()) {
@@ -420,6 +422,59 @@ namespace noaa {
                                         std::cout << "Population data error, \"catch\" missing \"errvec\" value.\n";
                                         exit(0);
                                     }
+                                    
+                                    temp = (*catch_).value[j].FindMember("indexerrtype");
+                                    if ((temp) != (*catch_).value[j].MemberEnd()) {
+                                        if (std::string((*temp).value.GetString()) == "CV") {
+                                            c.index_error_type = CV;
+                                        }
+                                    } else {
+                                        std::cout << "Population data warning, \"catch\" missing \"indexerrtype\" value.\n";
+//                                        exit(0);
+                                    }
+                                    
+                                    temp = (*catch_).value[j].FindMember("indexvec");
+                                    if ((temp) != (*catch_).value[j].MemberEnd()) {
+
+                                        if ((*temp).value.IsArray()) {
+                                            int s = (*temp).value.Size();
+                                            c.index_vector.Resize(s);
+                                            for (int k = 0; k < s; k++) {
+                                                c.index_vector(k) = static_cast<T> ((*temp).value[k].GetDouble());
+                                            }
+
+                                        } else {
+                                            std::cout << "Population data error, \"catch\", \"indexvec\" should be an array.\n";
+                                            exit(0);
+                                        }
+                                    } else {
+                                        std::cout << "Population data warning, \"catch\" missing \"indexvec\" value.\n";
+//                                        exit(0);
+                                    }
+                                    ////                                    
+                                    //
+
+
+                                    temp = (*catch_).value[j].FindMember("indexerrvec");
+                                    if ((temp) != (*catch_).value[j].MemberEnd()) {
+
+                                        if ((*temp).value.IsArray()) {
+                                            int s = (*temp).value.Size();
+                                            c.index_error_vector.Resize(s);
+                                            for (int k = 0; k < s; k++) {
+                                                c.index_error_vector(k) = static_cast<T> ((*temp).value[k].GetDouble());
+                                            }
+
+                                        } else {
+                                            std::cout << "Population data error, \"catch\", \"indexerrvec\" should be an array.\n";
+                                            exit(0);
+                                        }
+                                    } else {
+                                        std::cout << "Population data warning, \"catch\" missing \"indexerrvec\" value.\n";
+                                    }
+                                    
+                                    
+                                    
                                     pop_data.catch_data.push_back(c);
                                 }
 

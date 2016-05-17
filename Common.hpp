@@ -32,7 +32,8 @@ namespace noaa {
         };
         
         enum ErrorType {
-            CV = 0
+            NA= -1,
+            CV
         };
 
         template<typename T>
