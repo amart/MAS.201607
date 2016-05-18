@@ -36,11 +36,43 @@
 
 
 #include "../FunctionMinimizer/FunctionMinimizer.hpp"
+#include "Information.hpp"
 
-template<typename T>
-class MASEngine : public atl::ObjectiveFunction<T>{
-    
-};
+namespace noaa {
+    namespace mas {
+
+        template<typename T>
+        class MASEngine : public atl::ObjectiveFunction<T> {
+            Information<T> info;
+        public:
+            
+            void Initialize(){
+                
+                //loop through info initialize objects and register all 
+                //estimable parameters     
+                //
+                
+            }
+
+            const atl::Variable<T> Evaluate(){
+                //loop through populations and estimate number and biomass
+                //do movement
+                //get total numbers 
+                //return liklihood
+                
+            }
+            
+            void Forecast(){
+                
+            }
+            
+            void Report(){
+                
+            }
+            
+        };
+    }
+}
 
 
 

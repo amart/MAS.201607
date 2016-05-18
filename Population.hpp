@@ -192,9 +192,9 @@ namespace noaa {
             std::vector<MeanSizeAtAge<T> > msa_data;
             std::vector<AgeError<T> > age_error;
 
-            static const std::map<int,PopulationData<T> > Create(rapidjson::Document::MemberIterator& population_data) {
+            static const std::map<int, PopulationData<T> > Create(rapidjson::Document::MemberIterator& population_data) {
 
-                std::map<int,PopulationData<T> > data;
+                std::map<int, PopulationData<T> > data;
 
                 if ((*population_data).value.IsArray()) {
                     for (int i = 0; i < (*population_data).value.Size(); i++) {
@@ -374,8 +374,8 @@ namespace noaa {
                                         std::cout << "Population data error, \"catch\" missing \"area\" value.\n";
                                         exit(0);
                                     }
-                                    
-                                    
+
+
 
                                     temp = (*catch_).value[j].FindMember("area");
                                     if ((temp) != (*catch_).value[j].MemberEnd()) {
@@ -444,7 +444,7 @@ namespace noaa {
                                         std::cout << "Population data error, \"catch\" missing \"errvec\" value.\n";
                                         exit(0);
                                     }
-                                    
+
                                     temp = (*catch_).value[j].FindMember("indexerrtype");
                                     if ((temp) != (*catch_).value[j].MemberEnd()) {
                                         if (std::string((*temp).value.GetString()) == "CV") {
@@ -452,9 +452,9 @@ namespace noaa {
                                         }
                                     } else {
                                         std::cout << "Population data warning, \"catch\" missing \"indexerrtype\" value.\n";
-//                                        exit(0);
+                                        //                                        exit(0);
                                     }
-                                    
+
                                     temp = (*catch_).value[j].FindMember("indexvec");
                                     if ((temp) != (*catch_).value[j].MemberEnd()) {
 
@@ -471,7 +471,7 @@ namespace noaa {
                                         }
                                     } else {
                                         std::cout << "Population data warning, \"catch\" missing \"indexvec\" value.\n";
-//                                        exit(0);
+                                        //                                        exit(0);
                                     }
                                     ////                                    
                                     //
@@ -494,9 +494,9 @@ namespace noaa {
                                     } else {
                                         std::cout << "Population data warning, \"catch\" missing \"indexerrvec\" value.\n";
                                     }
-                                    
-                                    
-                                    
+
+
+
                                     pop_data.catch_data.push_back(c);
                                 }
 
@@ -979,10 +979,18 @@ namespace noaa {
             int id;
             std::shared_ptr<Recruitment<T> > recruitment_model;
             std::shared_ptr<Growth<T> > growth_model;
-            std::shared_ptr<LHParameters<T> > lh_parameters;    
+            std::shared_ptr<LHParameters<T> > lh_parameters;
             PopulationData<T>* data;
-            bool valid = false;
+            bool data_is_valid = false;
+
+            //
+            atl::Matrix<atl::Variable<T> > biomass_m;
+            atl::Matrix<atl::Variable<T> > numbers_m;
+            atl::Matrix<atl::Variable<T> > catch_m;
+            atl::Matrix<atl::Variable<T> > mortality_m;
+            atl::Matrix<atl::Variable<T> > emmigration_m;
             
+
             Population() {
             }
 
@@ -991,16 +999,16 @@ namespace noaa {
             }
 
             ~Population() {
-                
+
             }
         };
-        
+
         template<typename T>
-        std::ostream& operator <<(std::ostream& out, const Population<T>& pop){
-            out<<"Population:\n";
-            out<<pop.id<<"\n";
-            if(pop.valid && pop.data != NULL){
-                out<<*pop.data;
+        std::ostream& operator<<(std::ostream& out, const Population<T>& pop) {
+            out << "Population:\n";
+            out << pop.id << "\n";
+            if (pop.data_is_valid && pop.data != NULL) {
+                out << *pop.data;
             }
             return out;
         }
