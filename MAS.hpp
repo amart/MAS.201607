@@ -43,33 +43,45 @@ namespace noaa {
 
         template<typename T>
         class MASEngine : public atl::ObjectiveFunction<T> {
-            Information<T> info;
         public:
-            
-            void Initialize(){
-                
+            Information<T>* info;
+
+            void Initialize() {
+
                 //loop through info initialize objects and register all 
                 //estimable parameters     
                 //
-                
+
             }
 
-            const atl::Variable<T> Evaluate(){
+            const atl::Variable<T> Evaluate() {
+                atl::Variable<T> ret;
                 //loop through populations and estimate number and biomass
                 //do movement
                 //get total numbers 
                 //return liklihood
-                
+                std::cout<<info->number_of_years<<"\n";
+                for (int year = 0; year < info->number_of_years; year++) {
+                    std::cout<<"year = "<<year<<"\n";
+                    for (int season = 0; season < info->number_of_seasons; season++) {
+                        std::cout<<"season = "<<season<<"\n";
+                        for (int population = 0; population < info->subpopulations.size(); population++) {
+                            std::cout<<"population = "<<population<<"\n";
+                            info->subpopulations[population].Evaluate();
+                        }
+                    }
+                }
+                return ret;
             }
-            
-            void Forecast(){
-                
+
+            void Forecast() {
+
             }
-            
-            void Report(){
-                
+
+            void Report() {
+
             }
-            
+
         };
     }
 }

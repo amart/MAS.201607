@@ -54,8 +54,13 @@ build/Debug/GNU-MacOSX/main.o: main.cpp Information.hpp Common.hpp \
   ATL/Utilities/IO/StreamedDataFile.hpp \
   ATL/Utilities/IO/../StringUtil.hpp \
   ATL/Optimization/FunctionMinimizer.hpp Area.hpp Population.hpp \
-  ../ATL/ATL.hpp Recruitment.hpp LHParameters.hpp Growth.hpp \
-  Movement.hpp
+  ../ATL/ATL.hpp Recruitment.hpp Growth.hpp LHParameters.hpp \
+  Movement.hpp Fishery.hpp Fleet.hpp Selectivity.hpp MAS.hpp \
+  ../FunctionMinimizer/FunctionMinimizer.hpp \
+  ../FunctionMinimizer/../AutoDiff/AutoDiff/AutoDiff.hpp \
+  ../FunctionMinimizer/../AutoDiff/Utilities/StringUtil.hpp \
+  ../FunctionMinimizer/../ATL/Containers/Containers.hpp \
+  ../FunctionMinimizer/DerivativeChecker.hpp
 
 Information.hpp:
 
@@ -249,8 +254,26 @@ Population.hpp:
 
 Recruitment.hpp:
 
-LHParameters.hpp:
-
 Growth.hpp:
 
+LHParameters.hpp:
+
 Movement.hpp:
+
+Fishery.hpp:
+
+Fleet.hpp:
+
+Selectivity.hpp:
+
+MAS.hpp:
+
+../FunctionMinimizer/FunctionMinimizer.hpp:
+
+../FunctionMinimizer/../AutoDiff/AutoDiff/AutoDiff.hpp:
+
+../FunctionMinimizer/../AutoDiff/Utilities/StringUtil.hpp:
+
+../FunctionMinimizer/../ATL/Containers/Containers.hpp:
+
+../FunctionMinimizer/DerivativeChecker.hpp:

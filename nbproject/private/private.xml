@@ -6,6 +6,15 @@
     </data>
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Movement.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Population.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.config.json</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/main.cpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Common.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Information.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/MAS.hpp</file>
+            <file>file:/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/beta.data.json</file>
+        </group>
     </open-files>
 </project-private>

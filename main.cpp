@@ -33,20 +33,25 @@
 
 #include <cstdlib>
 #include "Information.hpp"
+#include "MAS.hpp"
 using namespace std;
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    noaa::mas::Information<double> info;
-    info.ParseConfig("beta.config.json");
-    info.ParseData("beta.data.json");
-    info.Initialize();
+    noaa::mas::Information<double>* info = new  noaa::mas::Information<double>();
+    info->ParseConfig("beta.config.json");
+    info->ParseData("beta.data.json");
+    info->Initialize();
 
-    for(int i =0; i < info.subpopulations.size(); i++){
-        std::cout<<info.subpopulations[i]<<"\n";
-    }
+    
+noaa::mas::MASEngine<double> engine;
+engine.info = info;
+engine.Evaluate();
+//    for(int i =0; i < info.subpopulations.size(); i++){
+//        std::cout<<info.subpopulations[i]<<"\n";
+//    }
     
     return 0;
 }

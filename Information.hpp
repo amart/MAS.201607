@@ -67,27 +67,71 @@ namespace noaa {
             std::vector<Area<T> > areas;
             std::vector<Population<T> > subpopulations;
             std::map<int, PopulationData<T> > population_data;
-            typedef typename std::map<int,PopulationData<T> >::iterator population_data_iterator;
+            typedef typename std::map<int, PopulationData<T> >::iterator population_data_iterator;
             std::vector<Fishery<T> > fisheries;
-            
 
             ~Information() {
-               
+
             }
-            
-            
-            void Initialize(){
-                for(int i =0; i < this->subpopulations.size(); i++){
+
+            void Initialize() {
+                int max_max_first_year = std::numeric_limits<int>::min();
+                int min_max_first_year = std::numeric_limits<int>::max();
+
+                int max_max_last_year = std::numeric_limits<int>::min();
+                int min_max_last_year = std::numeric_limits<int>::max();
+                int s,e;
+                for (int i = 0; i < this->subpopulations.size(); i++) {
                     population_data_iterator it = population_data.find(this->subpopulations[i].id);
-                    if(it != population_data.end()){
+                    if (it != population_data.end()) {
                         this->subpopulations[i].data = &(*it).second;
                         this->subpopulations[i].data_is_valid = true;
-                    }else{
-                        std::cout<<"Warning: No data found for population with id "<<this->subpopulations[i].data<<"\n";
+                        if (this->subpopulations[i].data->first_year > max_max_first_year) {
+                            max_max_first_year = this->subpopulations[i].data->first_year;
+                        }
+                        if (this->subpopulations[i].data->first_year < min_max_first_year) {
+                            min_max_first_year = this->subpopulations[i].data->first_year;
+                        }
+
+                        if (this->subpopulations[i].data->first_year > max_max_last_year) {
+                            max_max_last_year = this->subpopulations[i].data->first_year;
+                        }
+                        if (this->subpopulations[i].data->first_year < min_max_last_year) {
+                            min_max_last_year = this->subpopulations[i].data->first_year;
+                        }
                         
+                        if(i==0){
+                            s = this->subpopulations[i].data->first_year;
+                            e = this->subpopulations[i].data->last_year;
+                            this->number_of_years = e-s;
+                        }
+
+                    } else {
+                        std::cout << "Warning: No data found for population with id " << this->subpopulations[i].data << "\n";
+
                     }
-                    
+
                 }
+
+                if (max_max_first_year != min_max_first_year) {
+                    std::cout << "Warning: population data not consistent for First years\n Press 'q' to quit or any other key to continue! ";
+                    char temp;
+                    std::cin >> temp;
+                    if (temp == 'q') {
+                        exit(0);
+                    }
+                }
+
+                if (max_max_last_year != min_max_last_year) {
+                    std::cout << "Warning: population data not consistent for Last years\n Press 'q' to quit or any other key to continue! ";
+                    char temp;
+                    std::cin >> temp;
+                    if (temp == 'q') {
+                        exit(0);
+                    }
+                }
+                
+                std::cout<<"number of years = "<<this->number_of_years<<"\n";
             }
 
             void ParseConfig(const std::string& path) {
@@ -121,6 +165,11 @@ namespace noaa {
                     if (std::string((*mit).name.GetString()) == "fisheries") {
                         this->CreateFisheries(mit);
                     }
+                    
+                    if (std::string((*mit).name.GetString()) == "seasons") {
+                        std::cout<<"Not yet implemented!\n";
+                    }
+                    
                 }
 
 
@@ -395,9 +444,9 @@ namespace noaa {
                 this->population_data =
                         PopulationData<T>::Create(mit);
             }
-            
-            void CreateFisheries(rapidjson::Document::MemberIterator & mit){
-                std::cout<<__func__<<"\n";
+
+            void CreateFisheries(rapidjson::Document::MemberIterator & mit) {
+                std::cout << __func__ << "\n";
                 Fishery<T> f = Fishery<T>::Create(mit);
                 this->fisheries.push_back(f);
             }

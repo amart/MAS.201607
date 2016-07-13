@@ -975,7 +975,7 @@ namespace noaa {
         }
 
         template<typename T>
-        struct Population {
+        struct Population : public mas::ModelFunctor<T>{
             int id;
             std::shared_ptr<Recruitment<T> > recruitment_model;
             std::shared_ptr<Growth<T> > growth_model;
@@ -1001,6 +1001,12 @@ namespace noaa {
             ~Population() {
 
             }
+            
+             virtual void Evaluate(){
+                 
+             }
+            
+            
         };
 
         template<typename T>
