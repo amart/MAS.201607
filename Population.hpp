@@ -989,7 +989,10 @@ namespace noaa {
             atl::Matrix<atl::Variable<T> > catch_m;
             atl::Matrix<atl::Variable<T> > mortality_m;
             atl::Matrix<atl::Variable<T> > emmigration_m;
-            
+            atl::Matrix<atl::Variable<T> > immigration_m;
+            //
+            int current_year_index = 0;
+            int current_season_index = 0;
 
             Population() {
             }
@@ -1003,7 +1006,7 @@ namespace noaa {
             }
             
              virtual void Evaluate(){
-                 
+                
              }
             
             
