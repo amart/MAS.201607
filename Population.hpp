@@ -975,11 +975,12 @@ namespace noaa {
         }
 
         template<typename T>
-        struct Population : public mas::ModelFunctor<T>{
+        struct Population : public mas::ModelFunctor<T> {
             int id;
-            std::shared_ptr<Recruitment<T> > recruitment_model;
-            std::shared_ptr<Growth<T> > growth_model;
-            std::shared_ptr<LHParameters<T> > lh_parameters;
+            std::shared_ptr<Recruitment<T> > recruitment_model_m;
+            std::shared_ptr<Growth<T> > growth_model_m;
+            std::shared_ptr<LHParameters<T> > lh_parameters_m;
+            std::shared_ptr<Mortality<T> > mortality_m;
             PopulationData<T>* data;
             bool data_is_valid = false;
 
@@ -991,6 +992,9 @@ namespace noaa {
             atl::Matrix<atl::Variable<T> > emmigration_m;
             atl::Matrix<atl::Variable<T> > immigration_m;
             //
+            atl::Variable<T> numbers_sum;
+            atl::Variable<T> biomass_sum;
+
             int current_year_index = 0;
             int current_season_index = 0;
 
@@ -998,18 +1002,37 @@ namespace noaa {
             }
 
             Population(const Population<T>& other) :
-            id(other.id), recruitment_model(other.recruitment_model) {
+            id(other.id), recruitment_model_m(other.recruitment_model_m) {
             }
 
             ~Population() {
 
             }
-            
-             virtual void Evaluate(){
-                
-             }
-            
-            
+
+            void Initialize() {
+
+            }
+
+            void Evaluate() {
+
+            }
+
+            /**
+             * Evaluate the local biology for this subpopulation.
+             * recruitment, growth, and mortality
+             */
+            void EvaluateBiology() {
+                this->recruitment_model_m->Evaluate();//numbers and biomass
+                this->growth_model_m->Evaluate();//biomass only
+                this->mortality_m->Evaluate();//numbers and biomass
+
+            }
+
+            void SumNumbersAndBiomass() {
+//sum biomass
+//sum numbers                
+            }
+
         };
 
         template<typename T>

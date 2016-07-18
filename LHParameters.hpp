@@ -67,6 +67,11 @@ namespace noaa{
             
         };
         
+         template<typename T>
+        struct LifeHistory: ModelFunctor<T>{
+             
+         };
+        
         
     }
 }

@@ -56,21 +56,42 @@ namespace noaa {
 
             const atl::Variable<T> Evaluate() {
                 atl::Variable<T> ret;
-                //loop through populations and estimate number and biomass
-                //do movement
-                //get total numbers 
-                //return liklihood
-                std::cout<<info->number_of_years<<"\n";
-                for (int year = 0; year < info->number_of_years; year++) {
-                    std::cout<<"year = "<<year<<"\n";
-                    for (int season = 0; season < info->number_of_seasons; season++) {
-                        std::cout<<"season = "<<season<<"\n";
-                        for (int population = 0; population < info->subpopulations.size(); population++) {
-                            std::cout<<"population = "<<population<<"\n";
-                            info->subpopulations[population].Evaluate();
-                        }
-                    }
+                int np = info->subpopulations.size();
+                int nt = std::thread::hardware_concurrency();
+                
+                if (np < nt) {
+                    nt = np;
                 }
+                int range = np / nt;
+
+                for (int i = 0; i < np; i++) {
+                    int start = i*range;
+                    int end = 0;
+                    i == (np - 1) ? end = np : end = (i + 1) * range;
+                    thread_pool.doJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations)));
+                }
+                thread_pool.wait();
+
+
+
+
+
+
+                //loop through populations and estimate number and biomass
+                //                for (int year = 0; year < info->number_of_years; year++) {
+                //                    for (int season = 0; season < info->number_of_seasons; season++) {
+                //                        for (int population = 0; population < info->subpopulations.size(); population++) {
+                //                            info->subpopulations[population].SetCurrentYear(year);
+                //                            info->subpopulations[population].SetCurrentSeason(year);
+                //                            info->subpopulations[population].Evaluate();
+                //                        }
+                //                    }
+                //                }
+                //do movement
+
+                //get total numbers 
+
+                //return liklihood
                 return ret;
             }
 

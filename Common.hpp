@@ -60,6 +60,9 @@ namespace noaa {
             //variable, phase
             std::vector<std::pair<atl::Variable<T>*, int> > estimable;
             virtual void Evaluate() = 0;
+            virtual void Initialize(){
+                
+            }
         };
     }
 }
