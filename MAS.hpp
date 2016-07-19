@@ -59,7 +59,7 @@ namespace noaa {
             const atl::Variable<T> Evaluate() {
                 atl::Variable<T> ret;
                 int np = info->subpopulations.size();
-                int nt = std::thread::hardware_concurrency();
+                int nt = thread_pool_m.Size();
 //                
 //                if (np < nt) {
 //                    nt = np;
