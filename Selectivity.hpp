@@ -40,12 +40,11 @@ namespace noaa {
     namespace mas {
 
         template<typename T>
-        struct Selectivity : ModelFunctor<T> {
+        struct Selectivity : FleetFunctor<T> {
             int season;
             int area;
 
             virtual void Evaluate() {
-
             }
         };
 

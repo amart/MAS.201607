@@ -43,7 +43,7 @@ namespace noaa {
         };
 
         template<typename T>
-        struct Recruitment : ModelFunctor<T> {
+        struct Recruitment : PopulationFunctor<T> {
 
             static RecruitmentType GetRecruitType(const std::string& str) {
                 if (str == "Beverton-Holt") {

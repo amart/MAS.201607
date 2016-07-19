@@ -980,7 +980,7 @@ namespace noaa {
             std::shared_ptr<Recruitment<T> > recruitment_model_m;
             std::shared_ptr<Growth<T> > growth_model_m;
             std::shared_ptr<LHParameters<T> > lh_parameters_m;
-            std::shared_ptr<Mortality<T> > mortality_m;
+            std::shared_ptr<Mortality<T> > mortality_model_m;
             PopulationData<T>* data;
             bool data_is_valid = false;
 
@@ -1024,7 +1024,7 @@ namespace noaa {
             void EvaluateBiology() {
                 this->recruitment_model_m->Evaluate();//numbers and biomass
                 this->growth_model_m->Evaluate();//biomass only
-                this->mortality_m->Evaluate();//numbers and biomass
+                this->mortality_model_m->Evaluate();//numbers and biomass
 
             }
 

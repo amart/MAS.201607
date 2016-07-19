@@ -34,24 +34,26 @@
 #define COMMON_HPP
 
 #include "third_party/rapidjson/document.h"
+//#include "Population.hpp"
 #include "ATL/ATL.hpp"
+#include "Information.hpp"
 
 namespace noaa {
     namespace mas {
 
-        enum GenderType{
+        enum GenderType {
             MALE = 0,
             FEMALE,
             BOTH
         };
-        
-        enum GrowthType{
+
+        enum GrowthType {
             VONB = 0,
             UNKNOWN_GROWTH
         };
-        
+
         enum ErrorType {
-            NA= -1,
+            NA = -1,
             CV
         };
 
@@ -59,9 +61,44 @@ namespace noaa {
         struct ModelFunctor {
             //variable, phase
             std::vector<std::pair<atl::Variable<T>*, int> > estimable;
-            virtual void Evaluate() = 0;
-            virtual void Initialize(){
-                
+
+            virtual void Evaluate() {
+            }
+
+            virtual void Initialize() {
+
+            }
+        };
+
+        
+        template<typename T>
+        struct Population;
+        
+        template<typename T>
+        struct PopulationFunctor : ModelFunctor<T> {
+            mas::Population<T>* population_m;
+
+            virtual void Evaluate() {
+            }
+
+            virtual void Initialize() {
+
+            }
+        };
+        
+        
+        template<typename T>
+        struct Information;
+        
+        template<typename T>
+        struct FleetFunctor : ModelFunctor<T> {
+            mas::Information<T>* info_m;
+            
+            virtual void Evaluate() {
+            }
+
+            virtual void Initialize() {
+
             }
         };
     }

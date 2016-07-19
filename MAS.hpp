@@ -58,19 +58,19 @@ namespace noaa {
                 atl::Variable<T> ret;
                 int np = info->subpopulations.size();
                 int nt = std::thread::hardware_concurrency();
-                
-                if (np < nt) {
-                    nt = np;
-                }
-                int range = np / nt;
-
-                for (int i = 0; i < np; i++) {
-                    int start = i*range;
-                    int end = 0;
-                    i == (np - 1) ? end = np : end = (i + 1) * range;
-                    thread_pool.doJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations)));
-                }
-                thread_pool.wait();
+//                
+//                if (np < nt) {
+//                    nt = np;
+//                }
+//                int range = np / nt;
+//
+//                for (int i = 0; i < np; i++) {
+//                    int start = i*range;
+//                    int end = 0;
+//                    i == (np - 1) ? end = np : end = (i + 1) * range;
+//                    thread_pool.doJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations)));
+//                }
+//                thread_pool.wait();
 
 
 

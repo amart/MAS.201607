@@ -40,7 +40,7 @@ namespace noaa {
     namespace mas {
 
         template<typename T>
-        struct Growth : ModelFunctor<T> {
+        struct Growth : PopulationFunctor<T> {
 
             static GrowthType GetGrowthType(const std::string& str) {
                 if (str == "vonB") {

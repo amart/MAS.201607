@@ -40,17 +40,7 @@
 namespace noaa{
     namespace mas{
         
-        template<typename T>
-        class Growth {
-            MASEngine<T>* engine;
-            
-            public:
-                virtual const atl::Variable<T> Evaluate(){
-                    
-                }
-            
-            
-        };
+      
         
     }
 }

@@ -279,8 +279,8 @@ namespace noaa {
                         {
                             std::cout << "BEVERTON_HOLT \n";
                             //                            recruitment_model = std::make_signed<BevertonHolt<T> >();
-                            p.recruitment_model = std::make_shared<BevertonHolt<T> >();
-                            BevertonHolt<T>* bh = (BevertonHolt<T>*)p.recruitment_model.get();
+                            p.recruitment_model_m = std::make_shared<BevertonHolt<T> >();
+                            BevertonHolt<T>* bh = (BevertonHolt<T>*)p.recruitment_model_m.get();
                             am = v.FindMember("parameters");
                             if (am != v.MemberEnd()) {
                                 rapidjson::Document::MemberIterator param =
@@ -355,7 +355,7 @@ namespace noaa {
                 if (am != (*mit).value.MemberEnd()) {
                     rapidjson::Value& m = (*am).value;
                     std::shared_ptr<LHParameters<T> > lhp(new LHParameters<T>());
-                    p.lh_parameters = lhp;
+                    p.lh_parameters_m = lhp;
                     if (m.IsArray()) {
                         for (int i = 0; i < m.Size(); i++) {
                             Mortality<T> mort;
