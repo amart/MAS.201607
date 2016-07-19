@@ -24,97 +24,112 @@
 
 namespace noaa {
     namespace mas {
-        
-    class ThreadPool {
-    public:
 
-        ThreadPool(int threads = std::thread::hardware_concurrency()) : shutdown_(false) {
-            // Create the specified number of threads
-            threads_.reserve(threads);
-            for (int i = 0; i < threads; ++i)
-                threads_.emplace_back(std::bind(&ThreadPool::threadEntry, this, i));
-        }
+        class ThreadPool {
+        public:
 
-        ~ThreadPool() {
-            {
-                // Unblock any threads and tell them to stop
-                std::unique_lock <std::mutex> l(lock_);
+            ThreadPool() : shutdown_(false), started_(false) {
 
-                shutdown_ = true;
-                condVar_.notify_all();
             }
 
-            // Wait for all threads to stop
-            for (auto& thread : threads_)
-                thread.join();
-        }
-
-        size_t Size() {
-            return threads_.size();
-        }
-
-        void doJob(std::function <void (void) > func, bool put_in_wait_list = true) {
-            if (put_in_wait_list) {
-                this->wait_count++;
+            ThreadPool(int threads) : shutdown_(false), started_(true) {
+                // Create the specified number of threads
+                threads_.reserve(threads);
+                for (int i = 0; i < threads; ++i)
+                    threads_.emplace_back(std::bind(&ThreadPool::threadEntry, this, i));
             }
-            // Place a job on the queue and unblock a thread
-            std::unique_lock <std::mutex> l(lock_);
-            jobs_.emplace(std::make_pair(std::move(func), put_in_wait_list));
-            condVar_.notify_one();
-        }
 
-        void wait() {
-            while (this->wait_count != 0) {
-                //wait for threads
-            }
-  
-        }
-
-
-
-    protected:
-
-        void threadEntry(int i) {
-            std::pair < std::function <void (void) >, bool> job_;
-
-            while (1) {
+            ~ThreadPool() {
                 {
+                    // Unblock any threads and tell them to stop
                     std::unique_lock <std::mutex> l(lock_);
 
-                    while (!shutdown_ && jobs_.empty())
-                        condVar_.wait(l);
-
-                    if (jobs_.empty()) {
-                        // No jobs to do and we are shutting down
-                        return;
-                    }
-
-                    job_ = std::move(jobs_.front());
-                    jobs_.pop();
+                    shutdown_ = true;
+                    condVar_.notify_all();
                 }
 
-                // Do the job without holding any locks
-                std::function <void (void) > task = job_.first;
+                // Wait for all threads to stop
+                for (auto& thread : threads_)
+                    thread.join();
+            }
 
-
-                if (job_.second) {
-                    task();
-                     wait_count--;
-                } else {
-                    task();
+            void Start(int threads = std::thread::hardware_concurrency()) {
+                if (!started_) {
+                    threads_.reserve(threads);
+                    for (int i = 0; i < threads; ++i)
+                        threads_.emplace_back(std::bind(&ThreadPool::threadEntry, this, i));
+                    
+                    started_ = true;
                 }
             }
 
-        }
+            size_t Size() {
+                return threads_.size();
+            }
+
+            void DoJob(std::function <void (void) > func, bool put_in_wait_list = true) {
+                if (put_in_wait_list) {
+                    this->wait_count++;
+                }
+                // Place a job on the queue and unblock a thread
+                std::unique_lock <std::mutex> l(lock_);
+                jobs_.emplace(std::make_pair(std::move(func), put_in_wait_list));
+                condVar_.notify_one();
+            }
+
+            void Wait() {
+                while (this->wait_count != 0) {
+                    //wait for threads
+                }
+
+            }
 
 
-        std::mutex lock_;
-        std::condition_variable condVar_;
-        bool shutdown_;
-        std::queue <std::pair<std::function <void (void) >, bool> > jobs_;
-        std::vector <std::thread> threads_;
-        std::atomic<int> wait_count;
-    };
+
+        protected:
+
+            void threadEntry(int i) {
+                std::pair < std::function <void (void) >, bool> job_;
+
+                while (1) {
+                    {
+                        std::unique_lock <std::mutex> l(lock_);
+
+                        while (!shutdown_ && jobs_.empty())
+                            condVar_.wait(l);
+
+                        if (jobs_.empty()) {
+                            // No jobs to do and we are shutting down
+                            return;
+                        }
+
+                        job_ = std::move(jobs_.front());
+                        jobs_.pop();
+                    }
+
+                    // Do the job without holding any locks
+                    std::function <void (void) > task = job_.first;
+
+
+                    if (job_.second) {
+                        task();
+                        wait_count--;
+                    } else {
+                        task();
+                    }
+                }
+
+            }
+
+
+            std::mutex lock_;
+            std::condition_variable condVar_;
+            bool shutdown_;
+            bool started_;
+            std::queue <std::pair<std::function <void (void) >, bool> > jobs_;
+            std::vector <std::thread> threads_;
+            std::atomic<int> wait_count;
+        };
 
     }
 }

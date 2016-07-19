@@ -37,6 +37,7 @@
 
 #include "../FunctionMinimizer/FunctionMinimizer.hpp"
 #include "Information.hpp"
+#include "ThreadPool.hpp"
 
 namespace noaa {
     namespace mas {
@@ -45,6 +46,7 @@ namespace noaa {
         class MASEngine : public atl::ObjectiveFunction<T> {
         public:
             Information<T>* info;
+            ThreadPool thread_pool_m;
 
             void Initialize() {
 
@@ -104,6 +106,7 @@ namespace noaa {
             }
 
         };
+        
     }
 }
 
