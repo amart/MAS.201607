@@ -43,7 +43,7 @@ namespace noaa {
         struct Growth : PopulationFunctor<T> {
 
             static GrowthType GetGrowthType(const std::string& str) {
-                if (str == "vonB") {
+                if (str == std::string("vonB")) {
                     return VONB;
                 } else {
                     return UNKNOWN_GROWTH;
@@ -69,6 +69,7 @@ namespace noaa {
 
                 rapidjson::Document::MemberIterator parameters = (*growth).value.FindMember("parameters");
                 VonB<T>* vonb = new VonB<T>();
+                
                 if (parameters != (*growth).value.MemberEnd()) {
 
 
@@ -85,7 +86,7 @@ namespace noaa {
                     if (valuevec != (*param).value.MemberEnd()) {
                         if ((*valuevec).value.IsArray()) {
                             int size = (*valuevec).value.Size();
-                            vonb->Amax.Resize(size);
+                            vonb->Amin.Resize(size);
 
                             for (int i = 0; i < size; i++) {
                                 std::stringstream ss;
@@ -95,16 +96,22 @@ namespace noaa {
                             }
                         }
                     }
-
+                    //                    rapidjson::Document::MemberIterator estimated = (*param).value.FindMember("estimated");
+                    //                    rapidjson::Document::MemberIterator phase_ = (*param).value.FindMember("phase");
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
+
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
-
-                        for (int i = 0; i < vonb->Amin.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->Amin(i), phase));
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->Amin.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->Amin(i), phase));
+                            }
                         }
+
+
+
 
                     }
                     estimated = false;
@@ -131,19 +138,23 @@ namespace noaa {
                     }
 
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
-
-                        for (int i = 0; i < vonb->Amax.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->Amax(i), phase));
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->Amax.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->Amax(i), phase));
+                            }
                         }
+
 
                     }
 
 
                     //L1
+                    estimated = false;
+                    phase = 1;
                     param = (*parameters).value.FindMember("L1");
                     valuevec = (*param).value.FindMember("valuevec");
                     estimated_ = (*param).value.FindMember("estimated");
@@ -164,18 +175,24 @@ namespace noaa {
                     }
 
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
+
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
-
-                        for (int i = 0; i < vonb->L1.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->L1(i), phase));
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->L1.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->L1(i), phase));
+                            }
                         }
+
+
 
                     }
 
                     //CV_L1
+                    estimated = false;
+                    phase = 1;
                     param = (*parameters).value.FindMember("CV_L1");
                     valuevec = (*param).value.FindMember("valuevec");
                     estimated_ = (*param).value.FindMember("estimated");
@@ -196,14 +213,16 @@ namespace noaa {
                     }
 
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
-
-                        for (int i = 0; i < vonb->CV_L1.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->CV_L1(i), phase));
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->CV_L1.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->CV_L1(i), phase));
+                            }
                         }
+
 
                     }
 
@@ -228,18 +247,23 @@ namespace noaa {
                     }
 
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->L2.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->L2(i), phase));
+                            }
 
-                        for (int i = 0; i < vonb->L2.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->L2(i), phase));
                         }
+
 
                     }
 
                     //CV_L2
+                    estimated = false;
+                    phase = 1;
                     param = (*parameters).value.FindMember("CV_L2");
                     valuevec = (*param).value.FindMember("valuevec");
                     estimated_ = (*param).value.FindMember("estimated");
@@ -260,19 +284,27 @@ namespace noaa {
                     }
 
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
+
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
 
-                        for (int i = 0; i < vonb->CV_L2.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->CV_L2(i), phase));
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->CV_L2.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->CV_L2(i), phase));
+                            }
+
                         }
+
+
 
                     }
 
 
-                     //k
+                    //k
+                    estimated = false;
+                    phase = 1;
                     param = (*parameters).value.FindMember("k");
                     valuevec = (*param).value.FindMember("valuevec");
                     estimated_ = (*param).value.FindMember("estimated");
@@ -293,20 +325,17 @@ namespace noaa {
                     }
 
                     if (estimated_ != (*param).value.MemberEnd()) {
-                        estimated = (*estimated_).value.GetBool();
                         if (phase_ != (*param).value.MemberEnd()) {
                             phase = (*param).value.GetInt();
                         }
+                        if (std::string((*estimated_).value.GetString()) == "true") {
+                            estimated = true;
+                            for (int i = 0; i < vonb->k.Size(0); i++) {
+                                vonb->estimable.push_back(std::make_pair(&vonb->k(i), phase));
+                            }
 
-                        for (int i = 0; i < vonb->k.Size(0); i++) {
-                            vonb->estimable.push_back(std::make_pair(&vonb->k(i), phase));
                         }
-
                     }
-
-
-
-
 
                 }
                 return vonb;

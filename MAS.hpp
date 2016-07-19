@@ -43,52 +43,72 @@ namespace noaa {
     namespace mas {
 
         template<typename T>
+        void PopulationTread(std::vector<noaa::mas::Population<T> >& pops, int start, int end) {
+            //            pop.EvaluateBiology();
+            for (int i = start; i < end; i++) {
+                pops[i].EvaluateBiology();
+            }
+        }
+
+        template<typename T>
         class MASEngine : public atl::ObjectiveFunction<T> {
         public:
             Information<T>* info;
             ThreadPool thread_pool_m;
 
             void Initialize() {
-
+                size_t np = this->info->subpopulations.size();
+                size_t nt = std::thread::hardware_concurrency();
+                np < nt ? nt =np: nt=nt;
+                thread_pool_m.Start(nt);
                 //loop through info initialize objects and register all 
                 //estimable parameters     
-                //
+                
+                for(int i =0; i < info->subpopulations.size(); i++){
+                    if(!info->subpopulations[i].IsValid()){
+                        exit(0);
+                    }
+                }
 
             }
 
             const atl::Variable<T> Evaluate() {
                 atl::Variable<T> ret;
-                int np = info->subpopulations.size();
-                int nt = thread_pool_m.Size();
-//                
-//                if (np < nt) {
-//                    nt = np;
-//                }
-//                int range = np / nt;
-//
-//                for (int i = 0; i < np; i++) {
-//                    int start = i*range;
-//                    int end = 0;
-//                    i == (np - 1) ? end = np : end = (i + 1) * range;
-//                    thread_pool.doJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations)));
-//                }
-//                thread_pool.wait();
+                size_t np = info->subpopulations.size();
+                size_t nt = thread_pool_m.Size();
+                std::cout << "nt = " << nt << std::endl;
+
+                size_t range = 1;
+                if (np < nt) {
+                    nt = np;
+                } else {
+                    range = np / nt;
+                }
+
+
+                for (int i = 0; i < np; i++) {
+                    int start = i*range;
+                    int end = 0;
+                    i == (np - 1) ? end = np : end = (i + 1) * range;
+                    thread_pool_m.DoJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations), start, end), true);
+                }
+                thread_pool_m.Wait();
 
 
 
 
 
 
-                //loop through populations and estimate number and biomass
-                //                for (int year = 0; year < info->number_of_years; year++) {
-                //                    for (int season = 0; season < info->number_of_seasons; season++) {
-                //                        for (int population = 0; population < info->subpopulations.size(); population++) {
-                //                            info->subpopulations[population].SetCurrentYear(year);
-                //                            info->subpopulations[population].SetCurrentSeason(year);
-                //                            info->subpopulations[population].Evaluate();
-                //                        }
-                //                    }
-                //                }
+                // loop through populations and estimate number and biomass
+                for (int year = 0; year < info->number_of_years; year++) {
+                    for (int season = 0; season < info->number_of_seasons; season++) {
+                        for (int population = 0; population < info->subpopulations.size(); population++) {
+                            //                                            info->subpopulations[population].SetCurrentYear(year);
+                            //                                            info->subpopulations[population].SetCurrentSeason(year);
+                            //                                            info->subpopulations[population].Evaluate();
+                        }
+                    }
+                }
                 //do movement
 
                 //get total numbers 
@@ -106,7 +126,7 @@ namespace noaa {
             }
 
         };
-        
+
     }
 }
 

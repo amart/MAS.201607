@@ -1002,7 +1002,7 @@ namespace noaa {
             }
 
             Population(const Population<T>& other) :
-            id(other.id), recruitment_model_m(other.recruitment_model_m) {
+            id(other.id), recruitment_model_m(other.recruitment_model_m),growth_model_m(other.growth_model_m) {
             }
 
             ~Population() {
@@ -1017,20 +1017,50 @@ namespace noaa {
 
             }
 
+            bool IsValid() {
+                bool valid = true;
+
+                if (!this->recruitment_model_m) {
+                    std::cout << "Error: Population " << this->id << ": Recruitment Model not Valid!\n";
+                    valid = false;
+                }
+
+                if (!this->growth_model_m) {
+                    std::cout << "Error: Population " << this->id << ": Growth Model not Valid!\n";
+                    valid = false;
+                }
+
+                if (!this->mortality_model_m) {
+                    std::cout << "Error: Population " << this->id << ": Mortality Model not Valid!\n";
+                    valid = false;
+                }
+
+                if (!this->data_is_valid) {
+                    std::cout << "Error: Population " << this->id << ": Data not Valid!\n";
+                    valid = false;
+                }
+
+                return valid;
+            }
+
             /**
              * Evaluate the local biology for this subpopulation.
              * recruitment, growth, and mortality
              */
             void EvaluateBiology() {
-                this->recruitment_model_m->Evaluate();//numbers and biomass
-                this->growth_model_m->Evaluate();//biomass only
-                this->mortality_model_m->Evaluate();//numbers and biomass
+                //                this->recruitment_model_m->Evaluate();//numbers and biomass
+                //                this->growth_model_m->Evaluate();//biomass only
+                //                this->mortality_model_m->Evaluate();//numbers and biomass
+                size_t i = 0;
+                while (i < 1000000000) {
+                    i++;
+                }
 
             }
 
             void SumNumbersAndBiomass() {
-//sum biomass
-//sum numbers                
+                //sum biomass
+                //sum numbers                
             }
 
         };

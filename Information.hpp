@@ -80,7 +80,7 @@ namespace noaa {
 
                 int max_max_last_year = std::numeric_limits<int>::min();
                 int min_max_last_year = std::numeric_limits<int>::max();
-                int s,e;
+                int s, e;
                 for (int i = 0; i < this->subpopulations.size(); i++) {
                     population_data_iterator it = population_data.find(this->subpopulations[i].id);
                     if (it != population_data.end()) {
@@ -99,11 +99,11 @@ namespace noaa {
                         if (this->subpopulations[i].data->first_year < min_max_last_year) {
                             min_max_last_year = this->subpopulations[i].data->first_year;
                         }
-                        
-                        if(i==0){
+
+                        if (i == 0) {
                             s = this->subpopulations[i].data->first_year;
                             e = this->subpopulations[i].data->last_year;
-                            this->number_of_years = e-s;
+                            this->number_of_years = e - s;
                         }
 
                     } else {
@@ -130,8 +130,8 @@ namespace noaa {
                         exit(0);
                     }
                 }
-                
-                std::cout<<"number of years = "<<this->number_of_years<<"\n";
+
+                std::cout << "number of years = " << this->number_of_years << "\n";
             }
 
             void ParseConfig(const std::string& path) {
@@ -165,11 +165,11 @@ namespace noaa {
                     if (std::string((*mit).name.GetString()) == "fisheries") {
                         this->CreateFisheries(mit);
                     }
-                    
+
                     if (std::string((*mit).name.GetString()) == "seasons") {
-                        std::cout<<"Not yet implemented!\n";
+                        std::cout << "Not yet implemented!\n";
                     }
-                    
+
                 }
 
 
@@ -413,18 +413,19 @@ namespace noaa {
 
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
 
+                std::cout << "Growth!!!!!!!\n";
                 rapidjson::Document::MemberIterator t = (*mit).value.FindMember("type");
                 std::shared_ptr<Growth<T> > growth;
 
-                if (t == (*mit).value.MemberEnd()) {
+                if (t != (*mit).value.MemberEnd()) {
 
                     GrowthType gt = Growth<T>::GetGrowthType(std::string((*t).value.GetString()));
 
                     switch (gt) {
 
                         case VONB:
-                            growth = std::shared_ptr<VonB<T> >(VonB<T>::Create(mit));
-
+                            p.growth_model_m = std::shared_ptr<VonB<T> >(VonB<T>::Create(mit));
+                            std::cout<<"valid?"<<p.growth_model_m.operator bool()<<"\n";
                             break;
 
                         default:

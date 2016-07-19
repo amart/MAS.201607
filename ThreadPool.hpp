@@ -33,6 +33,7 @@ namespace noaa {
             }
 
             ThreadPool(int threads) : shutdown_(false), started_(true) {
+                wait_count =0;
                 // Create the specified number of threads
                 threads_.reserve(threads);
                 for (int i = 0; i < threads; ++i)
@@ -55,6 +56,7 @@ namespace noaa {
 
             void Start(int threads = std::thread::hardware_concurrency()) {
                 if (!started_) {
+                    wait_count = 0;
                     threads_.reserve(threads);
                     for (int i = 0; i < threads; ++i)
                         threads_.emplace_back(std::bind(&ThreadPool::threadEntry, this, i));

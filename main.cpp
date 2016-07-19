@@ -49,6 +49,8 @@ int main(int argc, char** argv) {
     
 noaa::mas::MASEngine<double> engine;
 engine.info = info;
+engine.Initialize();
+for(int i=0; i < 1000; i++)
 engine.Evaluate();
 //    for(int i =0; i < info.subpopulations.size(); i++){
 //        std::cout<<info.subpopulations[i]<<"\n";
