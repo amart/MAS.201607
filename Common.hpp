@@ -77,6 +77,10 @@ namespace noaa {
             virtual void Initialize() {
 
             }
+            
+            virtual void PushLocalEstimable(){
+                
+            }
         };
 
 
@@ -92,6 +96,12 @@ namespace noaa {
 
             virtual void Initialize() {
 
+            }
+            
+             virtual void PushLocalEstimable(){
+                 for(int i =0; i < this->estimable.size(); i++){
+                     this->population_m->local_estimable.push_back(this->estimable[i]);
+                 }
             }
         };
 
