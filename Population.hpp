@@ -977,6 +977,9 @@ namespace noaa {
         template<typename T>
         struct Population : public mas::ModelFunctor<T> {
             int id;
+            size_t number_of_years;
+            size_t number_of_seasons;
+            size_t number_of_genders;
             std::shared_ptr<Recruitment<T> > recruitment_model_m;
             std::shared_ptr<Growth<T> > growth_model_m;
             std::shared_ptr<LHParameters<T> > lh_parameters_m;
@@ -984,33 +987,56 @@ namespace noaa {
             PopulationData<T>* data;
             bool data_is_valid = false;
 
-            //
-            atl::Matrix<atl::Variable<T> > biomass_m;
-            atl::Matrix<atl::Variable<T> > numbers_m;
-            atl::Matrix<atl::Variable<T> > catch_m;
-            atl::Matrix<atl::Variable<T> > mortality_m;
-            atl::Matrix<atl::Variable<T> > emmigration_m;
-            atl::Matrix<atl::Variable<T> > immigration_m;
-            //
-            atl::Variable<T> numbers_sum;
-            atl::Variable<T> biomass_sum;
+            /**
+             * Males or pooled sex model
+             */
+            atl::Matrix<atl::Variable<T> > biomass_males_m;
+            atl::Matrix<atl::Variable<T> > numbers_males_m;
+            atl::Matrix<atl::Variable<T> > length_males_m;
+            atl::Matrix<atl::Variable<T> > catch_males_m;
+            atl::Matrix<atl::Variable<T> > total_mortality_males_m;
+            atl::Matrix<atl::Variable<T> > emmigration_males_m;
+            atl::Matrix<atl::Variable<T> > immigration_males_m;
 
-            int current_year_index = 0;
-            int current_season_index = 0;
+            /**
+             * Females if not a pooled sex model
+             */
+            atl::Matrix<atl::Variable<T> > biomass_females_m;
+            atl::Matrix<atl::Variable<T> > numbers_females_m;
+            atl::Matrix<atl::Variable<T> > length_females_m;
+            atl::Matrix<atl::Variable<T> > catch_females_m;
+            atl::Matrix<atl::Variable<T> > total_mortality_females_m;
+            atl::Matrix<atl::Variable<T> > emmigration_females_m;
+            atl::Matrix<atl::Variable<T> > immigration_females_m;
+            //
+            atl::Variable<T> numbers_sum; //(males + females) 
+            atl::Variable<T> biomass_sum; //(males + females)
+
 
             Population() {
             }
 
             Population(const Population<T>& other) :
-            id(other.id), recruitment_model_m(other.recruitment_model_m),growth_model_m(other.growth_model_m) {
+            id(other.id), recruitment_model_m(other.recruitment_model_m), growth_model_m(other.growth_model_m) {
             }
 
             ~Population() {
 
             }
 
+            /**
+             * Initialize data structures.
+             */
             void Initialize() {
 
+            }
+            
+            /**
+             * zero out any runtime information.
+             */
+            void Prepare(){
+                
+                this->biomass_females_m = static_cast<T>(0.0);
             }
 
             void Evaluate() {
@@ -1030,10 +1056,10 @@ namespace noaa {
                     valid = false;
                 }
 
-                if (!this->mortality_model_m) {
-                    std::cout << "Error: Population " << this->id << ": Mortality Model not Valid!\n";
-                    valid = false;
-                }
+//                if (!this->mortality_model_m) {
+//                    std::cout << "Error: Population " << this->id << ": Mortality Model not Valid!\n";
+//                    valid = false;
+//                }
 
                 if (!this->data_is_valid) {
                     std::cout << "Error: Population " << this->id << ": Data not Valid!\n";

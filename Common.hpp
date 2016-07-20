@@ -49,7 +49,16 @@ namespace noaa {
 
         enum GrowthType {
             VONB = 0,
+            SCHNUTE,
+            CASE_II,
+            CASE_III,
+            CASE_IV,
             UNKNOWN_GROWTH
+        };
+
+        enum RecruitmentType {
+            BEVERTON_HOLT = 0,
+            UNKOWN_RECRUITMENT
         };
 
         enum ErrorType {
@@ -70,10 +79,10 @@ namespace noaa {
             }
         };
 
-        
+
         template<typename T>
         struct Population;
-        
+
         template<typename T>
         struct PopulationFunctor : ModelFunctor<T> {
             mas::Population<T>* population_m;
@@ -85,15 +94,15 @@ namespace noaa {
 
             }
         };
-        
-        
+
+
         template<typename T>
         struct Information;
-        
+
         template<typename T>
         struct FleetFunctor : ModelFunctor<T> {
             mas::Information<T>* info_m;
-            
+
             virtual void Evaluate() {
             }
 

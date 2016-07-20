@@ -46,6 +46,7 @@ namespace noaa {
         void PopulationTread(std::vector<noaa::mas::Population<T> >& pops, int start, int end) {
             //            pop.EvaluateBiology();
             for (int i = start; i < end; i++) {
+                pops[i].Prepare();
                 pops[i].EvaluateBiology();
             }
         }

@@ -37,11 +37,7 @@
 namespace noaa {
     namespace mas {
 
-        enum RecruitmentType {
-            BEVERTON_HOLT = 0,
-            UNKOWN_RECRUITMENT
-        };
-
+      
         template<typename T>
         struct Recruitment : PopulationFunctor<T> {
 
@@ -77,7 +73,13 @@ namespace noaa {
             atl::Variable<T> h;
 
             virtual void Evaluate() {
-                std::cout << __func__ << " not implemented.\n";
+                if(!this->population_m){
+                    std::cout<<"Beverton-Holt Recruitment has not population.\n";
+                    exit(0);
+                }
+                
+                
+                
             }
 
             void Show() {
