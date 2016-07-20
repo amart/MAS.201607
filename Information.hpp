@@ -65,7 +65,7 @@ namespace noaa {
             std::map<int, noaa::mas::Season> seasons;
 
 
-            std::vector<Area<T> > areas;
+            std::map<int,Area<T> > areas;
             std::vector<Population<T> > subpopulations;
             std::map<int, PopulationData<T> > population_data;
             typedef typename std::map<int, PopulationData<T> >::iterator population_data_iterator;
@@ -106,7 +106,7 @@ namespace noaa {
                             e = this->subpopulations[i].data->last_year;
                             this->number_of_years = e - s;
                         }
-
+                        this->subpopulations[i].number_of_seasons = this->number_of_seasons;
                     } else {
                         std::cout << "Warning: No data found for population with id " << this->subpopulations[i].data << "\n";
 
@@ -177,7 +177,7 @@ namespace noaa {
                                 rapidjson::Document::MemberIterator sid = v.FindMember("season");
                                 rapidjson::Document::MemberIterator sname = v.FindMember("seasonName");
                                 rapidjson::Document::MemberIterator smonths = v.FindMember("months");
-                                noaa::mas::Season s((*sid).value.GetInt(),std::string((*sname).value.GetString()),(*smonths).value.GetInt());
+                                noaa::mas::Season s((*sid).value.GetInt(), std::string((*sname).value.GetString()), (*smonths).value.GetInt());
                                 this->seasons[s.id] = s;
                             }
                             this->number_of_seasons = this->seasons.size();
@@ -240,7 +240,7 @@ namespace noaa {
                         if (am != v.MemberEnd()) {
                             area.name = (*am).value.GetString();
                         }
-                        areas.push_back(area);
+                        areas[area.id] = area;
                     }
                 }
             }
