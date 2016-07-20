@@ -18,6 +18,7 @@
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Movement.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Population.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Recruitment.hpp</itemPath>
+      <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Season.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Selectivity.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Survey.hpp</itemPath>
       <itemPath>/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/ThreadPool.hpp</itemPath>
@@ -128,6 +129,11 @@
             flavor2="0">
       </item>
       <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Recruitment.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Season.hpp"
             ex="false"
             tool="3"
             flavor2="0">
@@ -252,6 +258,11 @@
             flavor2="0">
       </item>
       <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Recruitment.hpp"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="/Users/matthewsupernaw/NetBeansProjects/NetBeans_8_1_Projects/MAS/Season.hpp"
             ex="false"
             tool="3"
             flavor2="0">

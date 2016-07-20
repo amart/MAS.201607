@@ -46,6 +46,7 @@
 #include "Growth.hpp"
 #include "Movement.hpp"
 #include "Fishery.hpp"
+#include "Season.hpp"
 
 namespace noaa {
     namespace mas {
@@ -61,7 +62,7 @@ namespace noaa {
             size_t number_of_populations;
             size_t number_of_fleets;
             size_t number_of_surveys;
-
+            std::map<int, noaa::mas::Season> seasons;
 
 
             std::vector<Area<T> > areas;
@@ -167,7 +168,24 @@ namespace noaa {
                     }
 
                     if (std::string((*mit).name.GetString()) == "seasons") {
-                        std::cout << "Not yet implemented!\n";
+                        //                        rapidjson::Document::MemberIterator sid = (*mit).value.FindMember("")
+                        //                        std::cout << "Not yet implemented!\n";
+                        if ((*mit).value.IsArray()) {
+
+                            for (int i = 0; i < (*mit).value.Size(); i++) {
+                                rapidjson::Value& v = (*mit).value[i];
+                                rapidjson::Document::MemberIterator sid = v.FindMember("season");
+                                rapidjson::Document::MemberIterator sname = v.FindMember("seasonName");
+                                rapidjson::Document::MemberIterator smonths = v.FindMember("months");
+                                noaa::mas::Season s((*sid).value.GetInt(),std::string((*sname).value.GetString()),(*smonths).value.GetInt());
+                                this->seasons[s.id] = s;
+                            }
+                            this->number_of_seasons = this->seasons.size();
+
+                        } else {
+                            std::cout << "Seasons Error: Expected an array!\n";
+                            exit(0);
+                        }
                     }
 
                 }
@@ -425,7 +443,7 @@ namespace noaa {
 
                         case VONB:
                             p.growth_model_m = std::shared_ptr<VonB<T> >(VonB<T>::Create(mit));
-                            std::cout<<"valid?"<<p.growth_model_m.operator bool()<<"\n";
+                            std::cout << "valid?" << p.growth_model_m.operator bool() << "\n";
                             break;
 
                         default:

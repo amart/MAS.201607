@@ -986,6 +986,7 @@ namespace noaa {
             std::shared_ptr<Mortality<T> > mortality_model_m;
             PopulationData<T>* data;
             std::vector<std::pair<atl::Variable<T>*, int> > local_estimable;
+            
             bool data_is_valid = false;
 
             /**
