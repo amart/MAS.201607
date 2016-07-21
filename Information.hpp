@@ -65,7 +65,7 @@ namespace noaa {
             std::map<int, noaa::mas::Season> seasons;
 
 
-            std::map<int,Area<T> > areas;
+            std::map<int, Area<T> > areas;
             std::vector<Population<T> > subpopulations;
             std::map<int, PopulationData<T> > population_data;
             typedef typename std::map<int, PopulationData<T> >::iterator population_data_iterator;
@@ -106,7 +106,9 @@ namespace noaa {
                             e = this->subpopulations[i].data->last_year;
                             this->number_of_years = e - s;
                         }
+                        this->subpopulations[i].number_of_years = this->number_of_years;
                         this->subpopulations[i].number_of_seasons = this->number_of_seasons;
+                        this->subpopulations[i].Initialize();
                     } else {
                         std::cout << "Warning: No data found for population with id " << this->subpopulations[i].data << "\n";
 
@@ -131,7 +133,6 @@ namespace noaa {
                         exit(0);
                     }
                 }
-
                 std::cout << "number of years = " << this->number_of_years << "\n";
             }
 
@@ -177,7 +178,23 @@ namespace noaa {
                                 rapidjson::Document::MemberIterator sid = v.FindMember("season");
                                 rapidjson::Document::MemberIterator sname = v.FindMember("seasonName");
                                 rapidjson::Document::MemberIterator smonths = v.FindMember("months");
-                                noaa::mas::Season s((*sid).value.GetInt(), std::string((*sname).value.GetString()), (*smonths).value.GetInt());
+                                
+                                int sid_ = -1;
+                                if (sid != v.MemberEnd()) {
+                                    sid_ = (*sid).value.GetInt();
+                                }
+
+                                std::string sname_ = "NA";
+                                if (sname != v.MemberEnd()) {
+                                    sname_ = std::string((*sname).value.GetString());
+                                }
+
+                                uint32_t smonths_ = 12;
+                                if (smonths != v.MemberEnd()) {
+                                    smonths_ = (*smonths).value.GetInt();
+                                }
+
+                                noaa::mas::Season s(sid_, sname_, smonths_);
                                 this->seasons[s.id] = s;
                             }
                             this->number_of_seasons = this->seasons.size();
@@ -431,7 +448,6 @@ namespace noaa {
 
             void CreatePopulationGrowth(rapidjson::Document::MemberIterator& mit, Population<T>& p) {
 
-                std::cout << "Growth!!!!!!!\n";
                 rapidjson::Document::MemberIterator t = (*mit).value.FindMember("type");
                 std::shared_ptr<Growth<T> > growth;
 
@@ -443,7 +459,6 @@ namespace noaa {
 
                         case VONB:
                             p.growth_model_m = std::shared_ptr<VonB<T> >(VonB<T>::Create(mit));
-                            std::cout << "valid?" << p.growth_model_m.operator bool() << "\n";
                             break;
 
                         default:

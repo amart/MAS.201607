@@ -41,17 +41,21 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
+    
+    
+    atl::Variable<double>::gradient_structure_g.derivative_trace_level = atl::FIRST_ORDER;
     noaa::mas::Information<double>* info = new noaa::mas::Information<double>();
     info->ParseConfig("beta.config.json");
     info->ParseData("beta.data.json");
     info->Initialize();
-    std::cout << info->number_of_seasons << "\n";
-    exit(0);
+    
     noaa::mas::MASEngine<double> engine;
     engine.info = info;
     engine.Initialize();
     for (int i = 0; i < 1000; i++)
         engine.Evaluate();
+    atl::Variable<double>::gradient_structure_g.Accumulate();
+    atl::Variable<double>::gradient_structure_g.Reset();
     //    for(int i =0; i < info.subpopulations.size(); i++){
     //        std::cout<<info.subpopulations[i]<<"\n";
     //    }

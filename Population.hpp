@@ -986,40 +986,39 @@ namespace noaa {
             std::shared_ptr<Mortality<T> > mortality_model_m;
             PopulationData<T>* data;
             std::vector<std::pair<atl::Variable<T>*, int> > local_estimable;
-            
+
             bool data_is_valid = false;
 
             /**
              * Males or pooled sex model
              */
-            atl::Matrix<atl::Variable<T> > biomass_males_m;
-            atl::Matrix<atl::Variable<T> > numbers_males_m;
-            atl::Matrix<atl::Variable<T> > length_males_m;
-            atl::Matrix<atl::Variable<T> > catch_males_m;
-            atl::Matrix<atl::Variable<T> > total_mortality_males_m;
-            atl::Matrix<atl::Variable<T> > emmigration_males_m;
-            atl::Matrix<atl::Variable<T> > immigration_males_m;
+            std::vector<atl::Variable<T> > biomass_males_m;
+            std::vector<atl::Variable<T> > numbers_males_m;
+            std::vector<atl::Variable<T> > length_males_m;
+            std::vector<atl::Variable<T> > catch_males_m;
+            std::vector<atl::Variable<T> > total_mortality_males_m;
+            std::vector<atl::Variable<T> > emmigration_males_m;
+            std::vector<atl::Variable<T> > immigration_males_m;
 
             /**
              * Females if not a pooled sex model
              */
-            atl::Matrix<atl::Variable<T> > biomass_females_m;
-            atl::Matrix<atl::Variable<T> > numbers_females_m;
-            atl::Matrix<atl::Variable<T> > length_females_m;
-            atl::Matrix<atl::Variable<T> > catch_females_m;
-            atl::Matrix<atl::Variable<T> > total_mortality_females_m;
-            atl::Matrix<atl::Variable<T> > emmigration_females_m;
-            atl::Matrix<atl::Variable<T> > immigration_females_m;
+            std::vector<atl::Variable<T> > biomass_females_m;
+            std::vector<atl::Variable<T> > numbers_females_m;
+            std::vector<atl::Variable<T> > length_females_m;
+            std::vector<atl::Variable<T> > catch_females_m;
+            std::vector<atl::Variable<T> > total_mortality_females_m;
+            std::vector<atl::Variable<T> > emmigration_females_m;
+            std::vector<atl::Variable<T> > immigration_females_m;
             //
             atl::Variable<T> numbers_sum; //(males + females) 
             atl::Variable<T> biomass_sum; //(males + females)
-
 
             Population() {
             }
 
             Population(const Population<T>& other) :
-            id(other.id), recruitment_model_m(other.recruitment_model_m), growth_model_m(other.growth_model_m) {
+            id(other.id), number_of_years(other.number_of_years), number_of_seasons(other.number_of_seasons), number_of_genders(other.number_of_genders), recruitment_model_m(other.recruitment_model_m), growth_model_m(other.growth_model_m), lh_parameters_m(other.lh_parameters_m), mortality_model_m(other.mortality_model_m), data(other.data), local_estimable(other.local_estimable), data_is_valid(other.data_is_valid), biomass_males_m(other.biomass_males_m), numbers_males_m(other.numbers_males_m), length_males_m(other.length_males_m), catch_males_m(other.catch_males_m), total_mortality_males_m(other.total_mortality_males_m), emmigration_males_m(other.emmigration_males_m), immigration_males_m(other.immigration_males_m), biomass_females_m(other.biomass_females_m), numbers_females_m(other.numbers_females_m), length_females_m(other.length_females_m), catch_females_m(other.catch_females_m), total_mortality_females_m(other.total_mortality_females_m), emmigration_females_m(other.emmigration_females_m), immigration_females_m(other.immigration_females_m), numbers_sum(other.numbers_sum), biomass_sum(other.biomass_sum) {
             }
 
             ~Population() {
@@ -1030,15 +1029,30 @@ namespace noaa {
              * Initialize data structures.
              */
             void Initialize() {
+                std::cout << "init size = " << (this->number_of_years * this->number_of_seasons) << "\n" << std::flush;
+                biomass_males_m.resize(this->number_of_years * this->number_of_seasons);
+                numbers_males_m.resize(this->number_of_years * this->number_of_seasons);
+                length_males_m.resize(this->number_of_years * this->number_of_seasons);
+                catch_males_m.resize(this->number_of_years * this->number_of_seasons);
+                total_mortality_males_m.resize(this->number_of_years * this->number_of_seasons);
+                emmigration_males_m.resize(this->number_of_years * this->number_of_seasons);
+                immigration_males_m.resize(this->number_of_years * this->number_of_seasons);
+
+                biomass_females_m.resize(this->number_of_years * this->number_of_seasons);
+                numbers_females_m.resize(this->number_of_years * this->number_of_seasons);
+                length_females_m.resize(this->number_of_years * this->number_of_seasons);
+                catch_females_m.resize(this->number_of_years * this->number_of_seasons);
+                total_mortality_females_m.resize(this->number_of_years * this->number_of_seasons);
+                emmigration_females_m.resize(this->number_of_years * this->number_of_seasons);
+                immigration_females_m.resize(this->number_of_years * this->number_of_seasons);
 
             }
-            
+
             /**
              * zero out any runtime information.
              */
-            void Prepare(){
-                
-                this->biomass_females_m = static_cast<T>(0.0);
+            void Prepare() {
+
             }
 
             void Evaluate() {
@@ -1058,10 +1072,10 @@ namespace noaa {
                     valid = false;
                 }
 
-//                if (!this->mortality_model_m) {
-//                    std::cout << "Error: Population " << this->id << ": Mortality Model not Valid!\n";
-//                    valid = false;
-//                }
+                //                if (!this->mortality_model_m) {
+                //                    std::cout << "Error: Population " << this->id << ": Mortality Model not Valid!\n";
+                //                    valid = false;
+                //                }
 
                 if (!this->data_is_valid) {
                     std::cout << "Error: Population " << this->id << ": Data not Valid!\n";
@@ -1079,9 +1093,25 @@ namespace noaa {
                 //                this->recruitment_model_m->Evaluate();//numbers and biomass
                 //                this->growth_model_m->Evaluate();//biomass only
                 //                this->mortality_model_m->Evaluate();//numbers and biomass
-                size_t i = 0;
-                while (i < 1000000000) {
-                    i++;
+                for (int i = 0; i < this->number_of_years; i++) {
+                    for (int j = 0; j < this->number_of_seasons; j++) {
+                        biomass_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        numbers_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        length_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        catch_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        total_mortality_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        emmigration_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        immigration_males_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+
+                        biomass_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0))
+                                + atl::Variable<T>(M_PI);
+                        numbers_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        length_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        catch_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        total_mortality_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        emmigration_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                        immigration_females_m[i * this->number_of_seasons + j] = atl::Variable<T>(static_cast<T> (0.0));
+                    }
                 }
 
             }

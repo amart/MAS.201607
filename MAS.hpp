@@ -44,11 +44,19 @@ namespace noaa {
 
         template<typename T>
         void PopulationTread(std::vector<noaa::mas::Population<T> >& pops, int start, int end) {
-            //            pop.EvaluateBiology();
             for (int i = start; i < end; i++) {
                 pops[i].Prepare();
                 pops[i].EvaluateBiology();
             }
+
+
+        }
+
+        template<typename T>
+        void PopulationTread2(noaa::mas::Population<T>& pop) {
+            //            pop.EvaluateBiology();
+            pop.Prepare();
+            pop.EvaluateBiology();
         }
 
         template<typename T>
@@ -60,44 +68,48 @@ namespace noaa {
             void Initialize() {
                 size_t np = this->info->subpopulations.size();
                 size_t nt = std::thread::hardware_concurrency();
-                np < nt ? nt =np: nt=nt;
+                np < nt ? nt = np : nt = nt;
                 thread_pool_m.Start(nt);
                 //loop through info initialize objects and register all 
                 //estimable parameters     
-                
-                for(int i =0; i < info->subpopulations.size(); i++){
-                    if(!info->subpopulations[i].IsValid()){
+
+                for (int i = 0; i < info->subpopulations.size(); i++) {
+                    if (!info->subpopulations[i].IsValid()) {
                         exit(0);
                     }
                 }
 
             }
+            
+            ~MASEngine(){
+               
+            }
 
             const atl::Variable<T> Evaluate() {
+
                 atl::Variable<T> ret;
                 size_t np = info->subpopulations.size();
                 size_t nt = thread_pool_m.Size();
                 std::cout << "nt = " << nt << std::endl;
 
                 size_t range = 1;
+                range = np / nt;
+
                 if (np < nt) {
-                    nt = np;
+                    for (int i = 0; i < np; i++) {
+                        thread_pool_m.DoJob(std::bind(PopulationTread2<T>, std::ref(info->subpopulations[i])), true);
+                    }
                 } else {
-                    range = np / nt;
+
+                    for (int i = 0; i < nt; i++) {
+                        int start = i*range;
+                        int end = 0;
+                        i == (np - 1) ? end = np : end = (i + 1) * range;
+                        thread_pool_m.DoJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations), start, end), true);
+                    }
                 }
 
-
-                for (int i = 0; i < np; i++) {
-                    int start = i*range;
-                    int end = 0;
-                    i == (np - 1) ? end = np : end = (i + 1) * range;
-                    thread_pool_m.DoJob(std::bind(PopulationTread<T>, std::ref(info->subpopulations), start, end), true);
-                }
                 thread_pool_m.Wait();
-
-
-
-
 
 
                 // loop through populations and estimate number and biomass
@@ -115,6 +127,7 @@ namespace noaa {
                 //get total numbers 
 
                 //return liklihood
+
                 return ret;
             }
 
